@@ -3,7 +3,8 @@
         "Информатика": {
             "folder": "informatika",
             "variants": [
-                "variant-1"
+                "variant-1",
+                "variant-2"
             ]
         }
     },

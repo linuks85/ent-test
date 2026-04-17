@@ -44,7 +44,7 @@ const I18N = {
         theme: "Тема",
         noVariants: "Нет вариантов",
         fillName: "Введите ФИО для начала",
-        variantLabel: "Нұсқа",
+        variantLabel: "Вариант",
     },
     kz: {
         appTitle: "ҰБТ Тренажёр",
