@@ -71,19 +71,23 @@
 
     // Render extra_content block
     function renderExtraContent(ec) {
-        if (!ec) return "";
+        if (!ec || ec === "null" || typeof ec !== "object") return "";
+        const content = ec.content || "";
+        if (!content) return "";
         let inner = "";
         if (ec.type === "code") {
             const langLabel = ec.language
                 ? `<span class="code-lang">${escapeHtml(ec.language)}</span>`
                 : "";
-            inner = `${langLabel}<pre>${escapeHtml(ec.content)}</pre>`;
+            // Preserve newlines in code blocks
+            const codeHtml = escapeHtml(content).replace(/\n/g, "\n");
+            inner = `${langLabel}<pre>${codeHtml}</pre>`;
         } else if (ec.type === "table") {
-            inner = mdTableToHtml(ec.content);
+            inner = mdTableToHtml(content);
         } else if (ec.type === "image") {
-            inner = `<img src="${escapeHtml(ec.content)}" alt="illustration">`;
+            inner = `<img src="${escapeHtml(content)}" alt="illustration">`;
         } else {
-            inner = `<pre>${escapeHtml(ec.content || "")}</pre>`;
+            inner = `<pre>${escapeHtml(content)}</pre>`;
         }
         return `<div class="extra-content">${inner}</div>`;
     }
@@ -505,8 +509,8 @@
           <span class="section-pts">${maxPts} ${tt.pts}</span>
         </div>
         <div class="question-area">
-          ${q.context ? `<div class="context-block"><div class="context-label">${tt.context}</div><div class="context-text">${escapeHtml(q.context)}</div></div>` : ""}
           ${renderExtraContent(q.extra_content)}
+          ${q.context && !(q.extra_content && q.extra_content.type === "table") ? `<div class="context-block"><div class="context-label">${tt.context}</div><div class="context-text">${escapeHtml(q.context)}</div></div>` : ""}
           <p class="question-text">${escapeHtml(q.question)}</p>
           ${optionsHtml}
         </div>
@@ -768,8 +772,8 @@
               <span class="review-meta">${tt.question} ${qNum} • ${typeLabel}</span>
               <span class="review-pts" style="color:${ptsColor}">${earned}/${max} ${tt.pts}</span>
             </div>
-            ${q.context ? `<div class="context-block" style="margin-bottom:12px"><div class="context-text">${escapeHtml(q.context)}</div></div>` : ""}
             ${renderExtraContent(q.extra_content)}
+            ${q.context && !(q.extra_content && q.extra_content.type === "table") ? `<div class="context-block" style="margin-bottom:12px"><div class="context-text">${escapeHtml(q.context)}</div></div>` : ""}
             <p class="review-question">${escapeHtml(q.question)}</p>
             ${optionsReview}
             ${q.explanation ? `<div class="explanation-box">💡 ${escapeHtml(q.explanation)}</div>` : ""}
