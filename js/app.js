@@ -1,841 +1,233 @@
-/* ═══════════════════════════════════════════
-   ENT Test App — Main Application Logic
-   ═══════════════════════════════════════════ */
-
+/* ENT Test App v2 */
 (function () {
     "use strict";
+    var lang = "ru", theme = "dark", phase = "start", studentName = "", selectedSubject = "", selectedVariant = "";
+    var dataIndex = {}, questions = [], shuffleMap = [], currentQ = 0, answers = {}, timeLeft = 3600, timerInterval = null;
+    function $(s) { return document.querySelector(s); }
+    function $$(s) { return document.querySelectorAll(s); }
+    function T() { return I18N[lang]; }
+    function shuf(a) { var b = a.slice(); for (var i = b.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = b[i]; b[i] = b[j]; b[j] = t; } return b; }
+    function fmt(s) { var m = Math.floor(s / 60), sec = s % 60; return m + ":" + (sec < 10 ? "0" : "") + sec; }
+    function esc(s) { if (s == null) return ""; return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 
-    // ─── State ───
-    let lang = "ru";
-    let theme = "dark";
-    let phase = "start"; // start | test | confirm | timeup | results
-    let studentName = "";
-    let selectedSubject = "";
-    let selectedVariant = "";
-    let dataIndex = {};
-    let questions = [];
-    let shuffleMap = [];
-    let currentQ = 0;
-    let answers = {};
-    let timeLeft = 3600;
-    let timerInterval = null;
-
-    const $ = (sel) => document.querySelector(sel);
-    const $$ = (sel) => document.querySelectorAll(sel);
-    const t = () => I18N[lang];
-
-    // ─── Helpers ───
-    function shuffleArray(arr) {
-        const a = [...arr];
-        for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
+    function mdTable(md) {
+        if (!md) return "";
+        var lines = md.trim().split("\n"); if (lines.length < 2) return "<pre>" + esc(md) + "</pre>";
+        function pr(l) { return l.split("|").map(function (c) { return c.trim(); }).filter(function (c) { return c && c.indexOf("---") === -1; }); }
+        var hd = pr(lines[0]), ds = lines[1] && lines[1].indexOf("---") !== -1 ? 2 : 1;
+        var h = "<table><thead><tr>"; for (var i = 0; i < hd.length; i++)h += "<th>" + esc(hd[i]) + "</th>";
+        h += "</tr></thead><tbody>";
+        for (var r = ds; r < lines.length; r++) { if (lines[r].indexOf("---") !== -1) continue; var c = pr(lines[r]); if (!c.length) continue; h += "<tr>"; for (var j = 0; j < c.length; j++)h += "<td>" + esc(c[j]) + "</td>"; h += "</tr>"; }
+        return h + "</tbody></table>";
     }
 
-    function formatTime(s) {
-        const m = Math.floor(s / 60);
-        const sec = s % 60;
-        return `${m}:${sec.toString().padStart(2, "0")}`;
-    }
-
-    function escapeHtml(str) {
-        const div = document.createElement("div");
-        div.textContent = str;
-        return div.innerHTML;
-    }
-
-    // Parse markdown table to HTML table
-    function mdTableToHtml(md) {
-        const lines = md.trim().split("\n").filter((l) => l.trim());
-        if (lines.length < 2) return `<pre>${escapeHtml(md)}</pre>`;
-        const parseRow = (line) =>
-            line.split("|").map((c) => c.trim()).filter((c) => c);
-        const headers = parseRow(lines[0]);
-        // Skip separator line (line with dashes)
-        const dataStart = lines[1].includes("---") ? 2 : 1;
-        let html = "<table><thead><tr>";
-        headers.forEach((h) => (html += `<th>${escapeHtml(h)}</th>`));
-        html += "</tr></thead><tbody>";
-        for (let i = dataStart; i < lines.length; i++) {
-            const cells = parseRow(lines[i]);
-            if (cells.length === 0) continue;
-            html += "<tr>";
-            cells.forEach((c) => (html += `<td>${escapeHtml(c)}</td>`));
-            html += "</tr>";
-        }
-        html += "</tbody></table>";
-        return html;
-    }
-
-    // Render extra_content block
-    function renderExtraContent(ec) {
-        if (!ec || ec === "null" || typeof ec !== "object") return "";
-        const content = ec.content || "";
-        if (!content) return "";
-        let inner = "";
+    function renderExtra(ec) {
+        if (ec === null || ec === undefined || typeof ec !== "object") return "";
+        var c = ec.content; if (!c) return "";
+        var inner = "";
         if (ec.type === "code") {
-            const langLabel = ec.language
-                ? `<span class="code-lang">${escapeHtml(ec.language)}</span>`
-                : "";
-            // Preserve newlines in code blocks
-            const codeHtml = escapeHtml(content).replace(/\n/g, "\n");
-            inner = `${langLabel}<pre>${codeHtml}</pre>`;
+            var lb = ec.language ? '<span class="code-lang">' + esc(ec.language) + "</span>" : "";
+            inner = lb + "<pre>" + esc(c) + "</pre>";
         } else if (ec.type === "table") {
-            inner = mdTableToHtml(content);
+            inner = mdTable(c);
         } else if (ec.type === "image") {
-            inner = `<img src="${escapeHtml(content)}" alt="illustration">`;
+            inner = '<img src="' + esc(c) + '" alt="">';
         } else {
-            inner = `<pre>${escapeHtml(content)}</pre>`;
+            inner = "<pre>" + esc(c) + "</pre>";
         }
-        return `<div class="extra-content">${inner}</div>`;
+        return '<div class="extra-content">' + inner + "</div>";
     }
 
-    // ─── Scoring ───
-    function calcScore(q, qIndex, userAnswer) {
-        const qNum = qIndex + 1;
-        if (qNum <= 30) {
-            if (userAnswer === null || userAnswer === undefined)
-                return { earned: 0, max: 1 };
-            return { earned: userAnswer === q.correct ? 1 : 0, max: 1 };
-        }
-        if (qNum <= 35) {
-            if (!userAnswer || typeof userAnswer !== "object")
-                return { earned: 0, max: 2 };
-            const correctPairs = q.correct;
-            let correctCount = 0;
-            correctPairs.forEach(([li, ri]) => {
-                if (userAnswer[li] === ri) correctCount++;
-            });
-            return { earned: correctCount, max: 2 };
-        }
-        // multiple
-        if (!userAnswer || !Array.isArray(userAnswer) || userAnswer.length === 0)
-            return { earned: 0, max: 2 };
-        const correctSet = new Set(q.correct);
-        let errors = 0;
-        userAnswer.forEach((idx) => {
-            if (!correctSet.has(idx)) errors++;
-        });
-        q.correct.forEach((idx) => {
-            if (!userAnswer.includes(idx)) errors++;
-        });
-        return { earned: Math.max(0, 2 - errors), max: 2 };
+    function renderCtx(q) {
+        if (!q.context) return "";
+        if (q.extra_content && typeof q.extra_content === "object" && q.extra_content !== null && q.extra_content.type === "table") return "";
+        return '<div class="context-block"><div class="context-label">' + T().context + '</div><div class="context-text">' + esc(q.context) + "</div></div>";
     }
 
-    // ─── Data Loading ───
-    async function loadIndex() {
-        try {
-            const resp = await fetch("data/index.json");
-            dataIndex = await resp.json();
-        } catch (e) {
-            console.error("Failed to load index.json", e);
-            dataIndex = {};
-        }
+    function calcScore(q, qi, ua) {
+        var n = qi + 1;
+        if (n <= 30) { if (ua === null || ua === undefined) return { e: 0, m: 1 }; return { e: ua === q.correct ? 1 : 0, m: 1 }; }
+        if (n <= 35) { if (!ua || typeof ua !== "object") return { e: 0, m: 2 }; var cc = 0; for (var p = 0; p < q.correct.length; p++)if (ua[q.correct[p][0]] === q.correct[p][1]) cc++; return { e: cc, m: 2 }; }
+        if (!ua || !Array.isArray(ua) || !ua.length) return { e: 0, m: 2 };
+        var er = 0; for (var u = 0; u < ua.length; u++)if (q.correct.indexOf(ua[u]) === -1) er++;
+        for (var c = 0; c < q.correct.length; c++)if (ua.indexOf(q.correct[c]) === -1) er++;
+        return { e: Math.max(0, 2 - er), m: 2 };
     }
 
-    async function loadVariant(langCode, folder, variantFile) {
-        try {
-            const resp = await fetch(
-                `data/${langCode}/${folder}/${variantFile}.json`
-            );
-            return await resp.json();
-        } catch (e) {
-            console.error("Failed to load variant", e);
-            return [];
-        }
-    }
+    async function loadIndex() { try { dataIndex = await (await fetch("data/index.json")).json(); } catch (e) { dataIndex = {}; } }
+    async function loadVar(lc, f, v) { try { return await (await fetch("data/" + lc + "/" + f + "/" + v + ".json")).json(); } catch (e) { return []; } }
+    function setTh(t) { theme = t; document.documentElement.setAttribute("data-theme", t); }
 
-    // ─── Theme ───
-    function setTheme(t) {
-        theme = t;
-        document.documentElement.setAttribute("data-theme", t);
+    function popSubj() {
+        var s = $("#subj-sel"); s.innerHTML = '<option value="">—</option>';
+        var ld = dataIndex[lang] || {}; Object.keys(ld).forEach(function (k) { s.innerHTML += '<option value="' + esc(k) + '">' + esc(k) + "</option>"; });
+        selectedSubject = ""; selectedVariant = ""; popVar();
     }
-
-    // ─── Populate Selects ───
-    function populateSubjects() {
-        const sel = $("#subject-select");
-        sel.innerHTML = '<option value="">—</option>';
-        const langData = dataIndex[lang] || {};
-        Object.keys(langData).forEach((subj) => {
-            sel.innerHTML += `<option value="${escapeHtml(subj)}">${escapeHtml(subj)}</option>`;
-        });
-        selectedSubject = "";
-        selectedVariant = "";
-        populateVariants();
+    function popVar() {
+        var s = $("#var-sel"); s.innerHTML = '<option value="">—</option>'; s.disabled = !selectedSubject;
+        if (!selectedSubject) return; var sd = (dataIndex[lang] || {})[selectedSubject]; if (!sd) return;
+        sd.variants.forEach(function (v, i) { s.innerHTML += '<option value="' + esc(v) + '">' + (T().variantLabel || "Вариант") + " " + (i + 1) + "</option>"; });
     }
+    function hasA(qi) { var q = questions[qi], a = answers[qi]; if (!q) return false; if (q.type === "single" || q.type === "context") return a != null; if (q.type === "matching") return a && typeof a === "object" && Object.values(a).some(function (v) { return v !== -1 && v !== undefined; }); if (q.type === "multiple") return Array.isArray(a) && a.length > 0; return false; }
+    function cntA() { var c = 0; for (var i = 0; i < questions.length; i++)if (hasA(i)) c++; return c; }
+    function toO(qi, si) { var sm = shuffleMap[qi]; return sm ? sm.si[si] : si; }
+    function toS(qi, oi) { var sm = shuffleMap[qi]; return sm ? sm.si.indexOf(oi) : oi; }
+    function dO(qi) { var q = questions[qi], sm = shuffleMap[qi]; if (!q || !sm) return []; var src = sm.tp === "options" ? q.options : q.right_column; return sm.si.map(function (i) { return src[i]; }); }
 
-    function populateVariants() {
-        const sel = $("#variant-select");
-        sel.innerHTML = '<option value="">—</option>';
-        sel.disabled = !selectedSubject;
-        if (!selectedSubject) return;
-        const langData = dataIndex[lang] || {};
-        const subjData = langData[selectedSubject];
-        if (!subjData) return;
-        subjData.variants.forEach((v, i) => {
-            const label = `${t().variantLabel || "Вариант"} ${i + 1}`;
-            sel.innerHTML += `<option value="${escapeHtml(v)}">${escapeHtml(label)}</option>`;
-        });
-    }
-
-    // ─── Check if answer exists for question ───
-    function hasAnswer(qi) {
-        const q = questions[qi];
-        const a = answers[qi];
-        if (!q) return false;
-        if (q.type === "single" || q.type === "context")
-            return a !== undefined && a !== null;
-        if (q.type === "matching")
-            return (
-                a &&
-                typeof a === "object" &&
-                Object.values(a).some((v) => v !== -1 && v !== undefined)
-            );
-        if (q.type === "multiple") return a && Array.isArray(a) && a.length > 0;
-        return false;
-    }
-
-    function countAnswered() {
-        let c = 0;
-        questions.forEach((_, i) => {
-            if (hasAnswer(i)) c++;
-        });
-        return c;
-    }
-
-    // ─── Shuffle mapping ───
-    function toOriginalIndex(qIdx, shuffledIdx) {
-        const sm = shuffleMap[qIdx];
-        if (!sm) return shuffledIdx;
-        return sm.shuffledIndices[shuffledIdx];
-    }
-
-    function toShuffledIndex(qIdx, origIdx) {
-        const sm = shuffleMap[qIdx];
-        if (!sm) return origIdx;
-        return sm.shuffledIndices.indexOf(origIdx);
-    }
-
-    function getDisplayOptions(qIdx) {
-        const q = questions[qIdx];
-        const sm = shuffleMap[qIdx];
-        if (!q || !sm) return [];
-        if (sm.type === "options")
-            return sm.shuffledIndices.map((i) => q.options[i]);
-        if (sm.type === "right_column")
-            return sm.shuffledIndices.map((i) => q.right_column[i]);
-        return [];
-    }
-
-    // ─── Start Test ───
     async function startTest() {
-        const name = $("#student-input").value.trim();
-        if (!name || !selectedSubject || !selectedVariant) return;
-        studentName = name;
-
-        const langData = dataIndex[lang] || {};
-        const subjData = langData[selectedSubject];
-        if (!subjData) return;
-
-        const raw = await loadVariant(lang, subjData.folder, selectedVariant);
-        if (!raw || raw.length === 0) return;
-
-        // Group, shuffle within, maintain order
-        const singles = shuffleArray(raw.filter((q) => q.type === "single"));
-        const contexts = shuffleArray(raw.filter((q) => q.type === "context"));
-        const matchings = shuffleArray(raw.filter((q) => q.type === "matching"));
-        const multiples = shuffleArray(raw.filter((q) => q.type === "multiple"));
-        questions = [...singles, ...contexts, ...matchings, ...multiples];
-
-        // Build shuffle map
-        shuffleMap = questions.map((q) => {
-            if (
-                q.type === "single" ||
-                q.type === "context" ||
-                q.type === "multiple"
-            ) {
-                return {
-                    shuffledIndices: shuffleArray(q.options.map((_, i) => i)),
-                    type: "options",
-                };
-            }
-            if (q.type === "matching") {
-                return {
-                    shuffledIndices: shuffleArray(q.right_column.map((_, i) => i)),
-                    type: "right_column",
-                };
-            }
+        var nm = $("#stu-in").value.trim(); if (!nm || !selectedSubject || !selectedVariant) return; studentName = nm;
+        var sd = (dataIndex[lang] || {})[selectedSubject]; if (!sd) return;
+        var raw = await loadVar(lang, sd.folder, selectedVariant); if (!raw || !raw.length) return;
+        var s1 = shuf(raw.filter(function (q) { return q.type === "single"; }));
+        var s2 = shuf(raw.filter(function (q) { return q.type === "context"; }));
+        var s3 = shuf(raw.filter(function (q) { return q.type === "matching"; }));
+        var s4 = shuf(raw.filter(function (q) { return q.type === "multiple"; }));
+        questions = s1.concat(s2).concat(s3).concat(s4);
+        shuffleMap = questions.map(function (q) {
+            if (q.type === "single" || q.type === "context" || q.type === "multiple") return { si: shuf(q.options.map(function (_, i) { return i; })), tp: "options" };
+            if (q.type === "matching") return { si: shuf(q.right_column.map(function (_, i) { return i; })), tp: "right_column" };
             return null;
         });
-
-        answers = {};
-        currentQ = 0;
-        timeLeft = 3600;
-        phase = "test";
-        render();
-        startTimer();
-    }
-
-    function startTimer() {
+        answers = {}; currentQ = 0; timeLeft = 3600; phase = "test"; render();
         clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                phase = "timeup";
-                render();
-                return;
-            }
-            // Update timer display only
-            const timerEl = $("#timer");
-            if (timerEl) {
-                timerEl.textContent = `⏱ ${formatTime(timeLeft)}`;
-                timerEl.className = `timer${timeLeft <= 300 ? " warning" : ""}`;
-            }
-        }, 1000);
+        timerInterval = setInterval(function () { timeLeft--; if (timeLeft <= 0) { clearInterval(timerInterval); phase = "timeup"; render(); return; } var el = $("#timer"); if (el) { el.textContent = "⏱ " + fmt(timeLeft); el.className = "timer" + (timeLeft <= 300 ? " warning" : ""); } }, 1000);
     }
+    function finish() { clearInterval(timerInterval); phase = "results"; render(); }
+    function render() { var a = $("#app"); if (phase === "start") rStart(a); else if (phase === "test") rTest(a); else if (phase === "confirm") rConfirm(); else if (phase === "timeup") rTimeUp(a); else if (phase === "results") rResults(a); }
 
-    function finishTest() {
-        clearInterval(timerInterval);
-        phase = "results";
-        render();
+    function rStart(app) {
+        var t = T();
+        app.innerHTML =
+            '<div class="top-bar"><button class="btn btn-ghost btn-sm" id="th-t">' + (theme === "dark" ? "☀️" : "🌙") + '</button><button class="btn btn-ghost btn-sm" id="ln-t">' + t.langBtn + '</button></div>' +
+            '<div class="start-screen"><div class="start-box"><div class="start-icon">📝</div><h1 class="start-title">' + t.appTitle + '</h1><p class="start-sub">' + t.fillName + '</p>' +
+            '<div class="form-group"><label class="form-label">' + t.studentName + '</label><input type="text" class="form-input" id="stu-in" placeholder="' + t.studentNamePlaceholder + '" maxlength="50" value="' + esc(studentName) + '"></div>' +
+            '<div class="form-group"><label class="form-label">' + t.selectSubject + '</label><select class="form-select" id="subj-sel"><option value="">—</option></select></div>' +
+            '<div class="form-group"><label class="form-label">' + t.selectVariant + '</label><select class="form-select" id="var-sel" disabled><option value="">—</option></select></div>' +
+            '<button class="btn btn-primary btn-full" id="go-btn" disabled>' + t.startTest + '</button></div></div>';
+        popSubj();
+        if (selectedSubject) { $("#subj-sel").value = selectedSubject; popVar(); if (selectedVariant) $("#var-sel").value = selectedVariant; }
+        $("#th-t").onclick = function () { setTh(theme === "dark" ? "light" : "dark"); render(); };
+        $("#ln-t").onclick = function () { lang = lang === "ru" ? "kz" : "ru"; selectedSubject = ""; selectedVariant = ""; render(); };
+        $("#stu-in").oninput = function (e) { studentName = e.target.value.slice(0, 50); uBtn(); };
+        $("#subj-sel").onchange = function (e) { selectedSubject = e.target.value; selectedVariant = ""; popVar(); uBtn(); };
+        $("#var-sel").onchange = function (e) { selectedVariant = e.target.value; uBtn(); };
+        $("#go-btn").onclick = startTest; uBtn();
     }
+    function uBtn() { var b = $("#go-btn"); if (b) b.disabled = !(studentName.trim() && selectedSubject && selectedVariant); }
 
-    // ─── RENDER ───
-    function render() {
-        const app = $("#app");
-        if (phase === "start") renderStart(app);
-        else if (phase === "test") renderTest(app);
-        else if (phase === "confirm") renderConfirm(app);
-        else if (phase === "timeup") renderTimeUp(app);
-        else if (phase === "results") renderResults(app);
-    }
+    function rTest(app) {
+        var t = T(), q = questions[currentQ]; if (!q) return;
+        var qn = currentQ + 1, mp = qn <= 30 ? 1 : 2;
+        var sl = "";
+        if (currentQ < 25) sl = t.section + " 1: " + t.single + " (1-25)";
+        else if (currentQ < 30) sl = t.section + " 2: " + t.contextType + " (26-30)";
+        else if (currentQ < 35) sl = t.section + " 3: " + t.matching + " (31-35)";
+        else sl = t.section + " 4: " + t.multiple + " (36-40)";
+        var opts = dO(currentQ), ca = answers[currentQ];
 
-    // ─── Start Screen ───
-    function renderStart(app) {
-        const tt = t();
-        const canStart = studentName.trim().length > 0 && selectedSubject && selectedVariant;
-        app.innerHTML = `
-      <div class="top-bar">
-        <button class="btn btn-ghost btn-sm" id="theme-toggle">${theme === "dark" ? "☀️" : "🌙"}</button>
-        <button class="btn btn-ghost btn-sm" id="lang-toggle">${tt.langBtn}</button>
-      </div>
-      <div class="start-screen">
-        <div class="start-box">
-          <div class="start-icon">📝</div>
-          <h1 class="start-title">${tt.appTitle}</h1>
-          <p class="start-sub">${tt.fillName}</p>
+        var dots = ""; for (var d = 0; d < questions.length; d++) { var dc = "nav-dot"; if (hasA(d)) dc += " answered"; if (d === currentQ) dc += " current"; dots += '<button class="' + dc + '" data-qi="' + d + '">' + (d + 1) + "</button>"; }
 
-          <div class="form-group">
-            <label class="form-label">${tt.studentName}</label>
-            <input type="text" class="form-input" id="student-input" 
-              placeholder="${tt.studentNamePlaceholder}" 
-              maxlength="50" value="${escapeHtml(studentName)}">
-            <div class="form-hint" id="name-hint"></div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">${tt.selectSubject}</label>
-            <select class="form-select" id="subject-select"><option value="">—</option></select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">${tt.selectVariant}</label>
-            <select class="form-select" id="variant-select" disabled><option value="">—</option></select>
-          </div>
-
-          <button class="btn btn-primary btn-full" id="start-btn" ${canStart ? "" : "disabled"}>
-            ${tt.startTest}
-          </button>
-        </div>
-      </div>
-    `;
-
-        // Populate selects
-        populateSubjects();
-        if (selectedSubject) {
-            $("#subject-select").value = selectedSubject;
-            populateVariants();
-            if (selectedVariant) $("#variant-select").value = selectedVariant;
-        }
-
-        // Events
-        $("#theme-toggle").onclick = () => {
-            setTheme(theme === "dark" ? "light" : "dark");
-            render();
-        };
-        $("#lang-toggle").onclick = () => {
-            lang = lang === "ru" ? "kz" : "ru";
-            selectedSubject = "";
-            selectedVariant = "";
-            render();
-        };
-        $("#student-input").oninput = (e) => {
-            studentName = e.target.value.slice(0, 50);
-            updateStartBtn();
-        };
-        $("#subject-select").onchange = (e) => {
-            selectedSubject = e.target.value;
-            selectedVariant = "";
-            populateVariants();
-            updateStartBtn();
-        };
-        $("#variant-select").onchange = (e) => {
-            selectedVariant = e.target.value;
-            updateStartBtn();
-        };
-        $("#start-btn").onclick = startTest;
-    }
-
-    function updateStartBtn() {
-        const btn = $("#start-btn");
-        if (btn)
-            btn.disabled = !(
-                studentName.trim().length > 0 &&
-                selectedSubject &&
-                selectedVariant
-            );
-    }
-
-    // ─── Test Screen ───
-    function renderTest(app) {
-        const tt = t();
-        const q = questions[currentQ];
-        if (!q) return;
-
-        const qNum = currentQ + 1;
-        const maxPts = qNum <= 30 ? 1 : 2;
-        const typeLabel =
-            q.type === "single"
-                ? tt.single
-                : q.type === "context"
-                    ? tt.contextType
-                    : q.type === "matching"
-                        ? tt.matching
-                        : tt.multiple;
-        let sectionLabel = "";
-        if (currentQ < 25)
-            sectionLabel = `${tt.section} 1: ${tt.single} (1-25)`;
-        else if (currentQ < 30)
-            sectionLabel = `${tt.section} 2: ${tt.contextType} (26-30)`;
-        else if (currentQ < 35)
-            sectionLabel = `${tt.section} 3: ${tt.matching} (31-35)`;
-        else sectionLabel = `${tt.section} 4: ${tt.multiple} (36-40)`;
-
-        const displayOpts = getDisplayOptions(currentQ);
-        const currentAnswer = answers[currentQ];
-
-        // Dots
-        let dotsHtml = "";
-        questions.forEach((_, i) => {
-            const cls = [];
-            if (hasAnswer(i)) cls.push("answered");
-            if (i === currentQ) cls.push("current");
-            dotsHtml += `<button class="nav-dot ${cls.join(" ")}" data-qi="${i}">${i + 1}</button>`;
-        });
-
-        // Options
-        let optionsHtml = "";
+        var oh = "";
         if (q.type === "single" || q.type === "context") {
-            optionsHtml = '<div class="options-list">';
-            displayOpts.forEach((opt, si) => {
-                const origIdx = toOriginalIndex(currentQ, si);
-                const sel = currentAnswer === origIdx ? "selected" : "";
-                optionsHtml += `
-          <button class="option-btn ${sel}" data-si="${si}">
-            <span class="option-letter">${String.fromCharCode(65 + si)}</span>
-            <span class="option-text">${escapeHtml(opt)}</span>
-          </button>`;
-            });
-            optionsHtml += "</div>";
+            oh = '<div class="options-list">';
+            for (var i = 0; i < opts.length; i++) { var oi = toO(currentQ, i); oh += '<button class="option-btn' + (ca === oi ? " selected" : "") + '" data-si="' + i + '"><span class="option-letter">' + String.fromCharCode(65 + i) + '</span><span class="option-text">' + esc(opts[i]) + "</span></button>"; }
+            oh += "</div>";
         } else if (q.type === "matching") {
-            q.left_column.forEach((left, li) => {
-                const userRi = currentAnswer?.[li];
-                const shuffledVal =
-                    userRi !== undefined && userRi !== -1
-                        ? toShuffledIndex(currentQ, userRi)
-                        : "";
-                let selectOpts = `<option value="">${tt.selectOption}</option>`;
-                displayOpts.forEach((opt, si) => {
-                    const selected = shuffledVal === si ? "selected" : "";
-                    selectOpts += `<option value="${si}" ${selected}>${String.fromCharCode(65 + si)}. ${escapeHtml(opt)}</option>`;
-                });
-                optionsHtml += `
-          <div class="match-card">
-            <div class="match-term">${li + 1}. ${escapeHtml(left)}</div>
-            <select class="form-select match-select" data-li="${li}">${selectOpts}</select>
-          </div>`;
-            });
-        } else if (q.type === "multiple") {
-            optionsHtml = '<div class="options-list">';
-            displayOpts.forEach((opt, si) => {
-                const origIdx = toOriginalIndex(currentQ, si);
-                const sel =
-                    Array.isArray(currentAnswer) && currentAnswer.includes(origIdx)
-                        ? "selected"
-                        : "";
-                optionsHtml += `
-          <button class="option-btn checkbox ${sel}" data-si="${si}">
-            <span class="option-letter">${sel ? "✓" : String.fromCharCode(65 + si)}</span>
-            <span class="option-text">${escapeHtml(opt)}</span>
-          </button>`;
-            });
-            optionsHtml += "</div>";
-        }
-
-        app.innerHTML = `
-      <div class="test-header">
-        <div class="container test-header-inner">
-          <div>
-            <span class="q-num">${tt.question} ${qNum}</span>
-            <span class="q-total"> ${tt.of} ${questions.length}</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px">
-            <span class="timer" id="timer">⏱ ${formatTime(timeLeft)}</span>
-            <button class="btn btn-ghost btn-sm" id="theme-toggle-test">${theme === "dark" ? "☀️" : "🌙"}</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="nav-dots-bar">
-        <div class="container"><div class="nav-dots">${dotsHtml}</div></div>
-      </div>
-
-      <div class="container" style="padding:0 16px">
-        <div class="section-bar">
-          <span class="section-label">${sectionLabel}</span>
-          <span class="section-pts">${maxPts} ${tt.pts}</span>
-        </div>
-        <div class="question-area">
-          ${renderExtraContent(q.extra_content)}
-          ${q.context && !(q.extra_content && q.extra_content.type === "table") ? `<div class="context-block"><div class="context-label">${tt.context}</div><div class="context-text">${escapeHtml(q.context)}</div></div>` : ""}
-          <p class="question-text">${escapeHtml(q.question)}</p>
-          ${optionsHtml}
-        </div>
-      </div>
-
-      <div class="bottom-nav">
-        <div class="container bottom-nav-inner">
-          <button class="btn btn-ghost" id="prev-btn" ${currentQ === 0 ? "disabled" : ""}>${tt.prev}</button>
-          ${currentQ < questions.length - 1
-                ? `<button class="btn btn-primary" id="next-btn" style="flex:1">${tt.next}</button>
-                 <button class="btn btn-ghost" id="finish-btn" style="color:var(--red);border-color:var(--red)">${tt.finish}</button>`
-                : `<button class="btn btn-success" id="finish-btn" style="flex:1;font-weight:700">${tt.finish}</button>`
+            for (var li = 0; li < q.left_column.length; li++) {
+                var uri = ca ? ca[li] : undefined, sv = (uri != null && uri !== -1) ? toS(currentQ, uri) : -1;
+                var so = '<option value="">' + t.selectOption + "</option>";
+                for (var mi = 0; mi < opts.length; mi++)so += '<option value="' + mi + '"' + (sv === mi ? " selected" : "") + ">" + String.fromCharCode(65 + mi) + ". " + esc(opts[mi]) + "</option>";
+                oh += '<div class="match-card"><div class="match-term">' + (li + 1) + ". " + esc(q.left_column[li]) + '</div><select class="form-select match-select" data-li="' + li + '">' + so + "</select></div>";
             }
-        </div>
-      </div>
-    `;
-
-        // Events
-        $$("#theme-toggle-test").forEach(
-            (el) =>
-            (el.onclick = () => {
-                setTheme(theme === "dark" ? "light" : "dark");
-                renderTest(app);
-            })
-        );
-        $$(".nav-dot").forEach(
-            (el) =>
-            (el.onclick = () => {
-                currentQ = parseInt(el.dataset.qi);
-                renderTest(app);
-            })
-        );
-
-        if (q.type === "single" || q.type === "context") {
-            $$(".option-btn").forEach(
-                (el) =>
-                (el.onclick = () => {
-                    const si = parseInt(el.dataset.si);
-                    answers[currentQ] = toOriginalIndex(currentQ, si);
-                    renderTest(app);
-                })
-            );
-        } else if (q.type === "matching") {
-            $$(".match-select").forEach(
-                (el) =>
-                (el.onchange = () => {
-                    const li = parseInt(el.dataset.li);
-                    const val = el.value;
-                    if (!answers[currentQ]) answers[currentQ] = {};
-                    answers[currentQ][li] =
-                        val === "" ? -1 : toOriginalIndex(currentQ, parseInt(val));
-                })
-            );
         } else if (q.type === "multiple") {
-            $$(".option-btn").forEach(
-                (el) =>
-                (el.onclick = () => {
-                    const si = parseInt(el.dataset.si);
-                    const origIdx = toOriginalIndex(currentQ, si);
-                    if (!answers[currentQ]) answers[currentQ] = [];
-                    const arr = [...answers[currentQ]];
-                    const idx = arr.indexOf(origIdx);
-                    if (idx > -1) arr.splice(idx, 1);
-                    else arr.push(origIdx);
-                    answers[currentQ] = arr;
-                    renderTest(app);
-                })
-            );
+            oh = '<div class="options-list">';
+            for (var mi2 = 0; mi2 < opts.length; mi2++) { var moi = toO(currentQ, mi2), ms = Array.isArray(ca) && ca.indexOf(moi) !== -1; oh += '<button class="option-btn checkbox' + (ms ? " selected" : "") + '" data-si="' + mi2 + '"><span class="option-letter">' + (ms ? "✓" : String.fromCharCode(65 + mi2)) + '</span><span class="option-text">' + esc(opts[mi2]) + "</span></button>"; }
+            oh += "</div>";
         }
 
-        const prevBtn = $("#prev-btn");
-        if (prevBtn)
-            prevBtn.onclick = () => {
-                currentQ = Math.max(0, currentQ - 1);
-                renderTest(app);
-            };
-        const nextBtn = $("#next-btn");
-        if (nextBtn)
-            nextBtn.onclick = () => {
-                currentQ = Math.min(questions.length - 1, currentQ + 1);
-                renderTest(app);
-            };
-        const finBtn = $("#finish-btn");
-        if (finBtn)
-            finBtn.onclick = () => {
-                phase = "confirm";
-                render();
-            };
+        var extraHTML = renderExtra(q.extra_content);
+        var ctxHTML = renderCtx(q);
+
+        var bh = '<button class="btn btn-ghost" id="pb" ' + (currentQ === 0 ? "disabled" : "") + ">" + t.prev + "</button>";
+        if (currentQ < questions.length - 1) { bh += '<button class="btn btn-primary" id="nb" style="flex:1">' + t.next + '</button><button class="btn btn-ghost" id="fb" style="color:var(--red);border-color:var(--red)">' + t.finish + "</button>"; }
+        else { bh += '<button class="btn btn-success" id="fb" style="flex:1;font-weight:700">' + t.finish + "</button>"; }
+
+        app.innerHTML =
+            '<div class="test-header"><div class="container test-header-inner"><div><span class="q-num">' + t.question + " " + qn + '</span><span class="q-total"> ' + t.of + " " + questions.length + "</span></div>" +
+            '<div style="display:flex;align-items:center;gap:12px"><span class="timer" id="timer">⏱ ' + fmt(timeLeft) + '</span><button class="btn btn-ghost btn-sm" id="th-t2">' + (theme === "dark" ? "☀️" : "🌙") + "</button></div></div></div>" +
+            '<div class="nav-dots-bar"><div class="container"><div class="nav-dots">' + dots + "</div></div></div>" +
+            '<div class="container" style="padding:0 16px"><div class="section-bar"><span class="section-label">' + sl + '</span><span class="section-pts">' + mp + " " + t.pts + "</span></div>" +
+            '<div class="question-area">' + extraHTML + ctxHTML + '<p class="question-text">' + esc(q.question) + "</p>" + oh + "</div></div>" +
+            '<div class="bottom-nav"><div class="container bottom-nav-inner">' + bh + "</div></div>";
+
+        var tb = $("#th-t2"); if (tb) tb.onclick = function () { setTh(theme === "dark" ? "light" : "dark"); rTest(app); };
+        $$(".nav-dot").forEach(function (el) { el.onclick = function () { currentQ = parseInt(this.getAttribute("data-qi")); rTest(app); }; });
+
+        if (q.type === "single" || q.type === "context") { $$(".option-btn").forEach(function (el) { el.onclick = function () { answers[currentQ] = toO(currentQ, parseInt(this.getAttribute("data-si"))); rTest(app); }; }); }
+        else if (q.type === "matching") { $$(".match-select").forEach(function (el) { el.onchange = function () { var l = parseInt(this.getAttribute("data-li")), v = this.value; if (!answers[currentQ]) answers[currentQ] = {}; answers[currentQ][l] = v === "" ? -1 : toO(currentQ, parseInt(v)); }; }); }
+        else if (q.type === "multiple") { $$(".option-btn").forEach(function (el) { el.onclick = function () { var si = parseInt(this.getAttribute("data-si")), oi = toO(currentQ, si); if (!answers[currentQ]) answers[currentQ] = []; var ar = answers[currentQ].slice(), ix = ar.indexOf(oi); if (ix > -1) ar.splice(ix, 1); else ar.push(oi); answers[currentQ] = ar; rTest(app); }; }); }
+
+        var pb = $("#pb"); if (pb) pb.onclick = function () { currentQ = Math.max(0, currentQ - 1); rTest(app); };
+        var nb = $("#nb"); if (nb) nb.onclick = function () { currentQ = Math.min(questions.length - 1, currentQ + 1); rTest(app); };
+        var fb = $("#fb"); if (fb) fb.onclick = function () { phase = "confirm"; render(); };
     }
 
-    // ─── Confirm Modal ───
-    function renderConfirm(app) {
-        const tt = t();
-        const answered = countAnswered();
-        const unanswered = questions.length - answered;
-
-        // Keep test visible behind modal
-        const modalHtml = `
-      <div class="modal-overlay" id="modal-overlay">
-        <div class="modal-box">
-          <h2 class="modal-title">${tt.confirmTitle}</h2>
-          <p class="modal-text">${tt.confirmMsg.replace("{answered}", answered).replace("{total}", questions.length)}</p>
-          ${unanswered > 0 ? `<p class="modal-warn">⚠️ ${tt.unanswered.replace("{count}", unanswered)}</p>` : ""}
-          <div class="modal-actions">
-            <button class="btn btn-ghost" id="cancel-btn" style="flex:1">${tt.cancel}</button>
-            <button class="btn btn-danger" id="confirm-finish-btn" style="flex:1">${tt.confirmBtn}</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-        // Append modal on top
-        const div = document.createElement("div");
-        div.id = "modal-container";
-        div.innerHTML = modalHtml;
+    function rConfirm() {
+        var t = T(), ans = cntA(), un = questions.length - ans;
+        var div = document.createElement("div"); div.id = "mc";
+        div.innerHTML = '<div class="modal-overlay"><div class="modal-box"><h2 class="modal-title">' + t.confirmTitle + '</h2><p class="modal-text">' + t.confirmMsg.replace("{answered}", ans).replace("{total}", questions.length) + "</p>" +
+            (un > 0 ? '<p class="modal-warn">⚠️ ' + t.unanswered.replace("{count}", un) + "</p>" : "") +
+            '<div class="modal-actions"><button class="btn btn-ghost" id="cc" style="flex:1">' + t.cancel + '</button><button class="btn btn-danger" id="cf" style="flex:1">' + t.confirmBtn + "</button></div></div></div>";
         document.body.appendChild(div);
-
-        $("#cancel-btn").onclick = () => {
-            document.body.removeChild(div);
-            phase = "test";
-        };
-        $("#confirm-finish-btn").onclick = () => {
-            document.body.removeChild(div);
-            finishTest();
-        };
+        $("#cc").onclick = function () { document.body.removeChild(div); phase = "test"; };
+        $("#cf").onclick = function () { document.body.removeChild(div); finish(); };
     }
 
-    // ─── Time Up ───
-    function renderTimeUp(app) {
-        const tt = t();
-        app.innerHTML = `
-      <div class="modal-overlay">
-        <div class="modal-box" style="text-align:center">
-          <div class="modal-icon">⏰</div>
-          <h2 class="modal-title" style="color:var(--red)">${tt.timeUp}</h2>
-          <p class="modal-text">${tt.timeUpMsg}</p>
-          <button class="btn btn-primary" id="timeup-ok" style="margin-top:16px;padding:12px 32px">${tt.ok}</button>
-        </div>
-      </div>
-    `;
-        $("#timeup-ok").onclick = finishTest;
+    function rTimeUp(app) {
+        var t = T();
+        app.innerHTML = '<div class="modal-overlay"><div class="modal-box" style="text-align:center"><div class="modal-icon">⏰</div><h2 class="modal-title" style="color:var(--red)">' + t.timeUp + '</h2><p class="modal-text">' + t.timeUpMsg + '</p><button class="btn btn-primary" id="tu" style="margin-top:16px;padding:12px 32px">' + t.ok + "</button></div></div>";
+        $("#tu").onclick = finish;
     }
 
-    // ─── Results ───
-    function renderResults(app) {
-        const tt = t();
+    function rResults(app) {
+        var t = T(), te = 0, tm = 0, det = [];
+        for (var i = 0; i < questions.length; i++) { var q = questions[i], ua = answers[i] != null ? answers[i] : null, sc = calcScore(q, i, ua); te += sc.e; tm += sc.m; det.push({ q: q, i: i, ua: ua, e: sc.e, m: sc.m }); }
+        var pct = tm ? Math.round(te / tm * 100) : 0, cc = 0, sk = 0, errs = [];
+        for (var di = 0; di < det.length; di++) { if (det[di].e === det[di].m) cc++; else errs.push(det[di]); if (!hasA(det[di].i)) sk++; }
+        var ic = Math.max(0, errs.length - sk), sC = pct >= 70 ? "var(--green)" : pct >= 50 ? "var(--orange)" : "var(--red)";
 
-        let totalEarned = 0,
-            totalMax = 0;
-        const details = questions.map((q, i) => {
-            const userAns = answers[i] ?? null;
-            const { earned, max } = calcScore(q, i, userAns);
-            totalEarned += earned;
-            totalMax += max;
-            return { q, index: i, userAns, earned, max };
-        });
+        var rh = "";
+        if (errs.length) {
+            rh = '<h2 class="review-title">' + t.reviewErrors + "</h2>";
+            for (var ei = 0; ei < errs.length; ei++) {
+                var d = errs[ei], eq = d.q, en = d.i + 1;
+                var tl = eq.type === "single" ? t.single : eq.type === "context" ? t.contextType : eq.type === "matching" ? t.matching : t.multiple;
+                var pt = d.e > 0 ? " partial" : "", pc = d.e > 0 ? "var(--orange)" : "var(--red)", or = "";
 
-        const pct = totalMax > 0 ? Math.round((totalEarned / totalMax) * 100) : 0;
-        const correctCount = details.filter((d) => d.earned === d.max).length;
-        const errors = details.filter((d) => d.earned < d.max);
-        const skippedCount = details.filter((d) => !hasAnswer(d.index)).length;
-        const incorrectCount = errors.length - skippedCount;
-
-        const scoreColor =
-            pct >= 70 ? "var(--green)" : pct >= 50 ? "var(--orange)" : "var(--red)";
-
-        // Error review
-        let reviewHtml = "";
-        if (errors.length > 0) {
-            reviewHtml = `<h2 class="review-title">${tt.reviewErrors}</h2>`;
-            errors.forEach(({ q, index: qIdx, userAns, earned, max }) => {
-                const qNum = qIdx + 1;
-                const typeLabel =
-                    q.type === "single"
-                        ? tt.single
-                        : q.type === "context"
-                            ? tt.contextType
-                            : q.type === "matching"
-                                ? tt.matching
-                                : tt.multiple;
-                const partial = earned > 0 ? "partial" : "";
-                const ptsColor = earned > 0 ? "var(--orange)" : "var(--red)";
-
-                let optionsReview = "";
-
-                if (q.type === "single" || q.type === "context") {
-                    q.options.forEach((opt, oi) => {
-                        const isCorrect = oi === q.correct;
-                        const isUserPick = userAns === oi;
-                        let cls = "";
-                        if (isCorrect) cls = "correct-opt";
-                        else if (isUserPick) cls = "wrong-opt";
-                        const letterColor = isCorrect
-                            ? "var(--green)"
-                            : isUserPick
-                                ? "var(--red)"
-                                : "var(--text-dim)";
-                        let tag = "";
-                        if (isUserPick && !isCorrect)
-                            tag = `<span class="review-tag" style="color:var(--red)">✗ ${tt.yourAnswer}</span>`;
-                        if (isCorrect)
-                            tag = `<span class="review-tag" style="color:var(--green)">✓ ${tt.correctAnswer}</span>`;
-                        optionsReview += `
-              <div class="review-option ${cls}">
-                <span class="review-letter" style="color:${letterColor}">${String.fromCharCode(65 + oi)}</span>
-                <span style="flex:1">${escapeHtml(opt)}</span>
-                ${tag}
-              </div>`;
-                    });
-                } else if (q.type === "matching") {
-                    q.left_column.forEach((left, li) => {
-                        const correctRi = q.correct.find((p) => p[0] === li)?.[1];
-                        const userRi = userAns?.[li];
-                        const isCorrect = userRi === correctRi;
-                        let wrongPart = "";
-                        if (!isCorrect && userRi !== undefined && userRi !== -1) {
-                            wrongPart = `<span class="review-match-wrong">${escapeHtml(q.right_column[userRi])}</span> →`;
-                        }
-                        optionsReview += `
-              <div class="review-match">
-                <span class="review-match-term">${escapeHtml(left)}</span>
-                ${wrongPart}
-                <span class="review-match-correct">${escapeHtml(q.right_column[correctRi])}</span>
-              </div>`;
-                    });
-                } else if (q.type === "multiple") {
-                    q.options.forEach((opt, oi) => {
-                        const isCorrect = q.correct.includes(oi);
-                        const isUserPick =
-                            Array.isArray(userAns) && userAns.includes(oi);
-                        let cls = "";
-                        if (isCorrect && isUserPick) cls = "correct-opt";
-                        else if (isCorrect && !isUserPick) cls = "correct-opt";
-                        else if (!isCorrect && isUserPick) cls = "wrong-opt";
-                        const letterColor = isCorrect
-                            ? "var(--green)"
-                            : isUserPick
-                                ? "var(--red)"
-                                : "var(--text-dim)";
-                        let tag = "";
-                        if (isUserPick && !isCorrect)
-                            tag = `<span class="review-tag" style="color:var(--red)">✗</span>`;
-                        if (isCorrect && !isUserPick)
-                            tag = `<span class="review-tag" style="color:var(--orange)">⚠ ${tt.correctAnswer}</span>`;
-                        if (isCorrect && isUserPick)
-                            tag = `<span class="review-tag" style="color:var(--green)">✓</span>`;
-                        optionsReview += `
-              <div class="review-option ${cls}">
-                <span class="review-letter" style="color:${letterColor}">${String.fromCharCode(65 + oi)}</span>
-                <span style="flex:1">${escapeHtml(opt)}</span>
-                ${tag}
-              </div>`;
-                    });
+                if (eq.type === "single" || eq.type === "context") {
+                    for (var oi = 0; oi < eq.options.length; oi++) { var isc = oi === eq.correct, isu = d.ua === oi, cl = isc ? " correct-opt" : isu ? " wrong-opt" : "", lc = isc ? "var(--green)" : isu ? "var(--red)" : "var(--text-dim)", tg = ""; if (isu && !isc) tg = '<span class="review-tag" style="color:var(--red)">✗ ' + t.yourAnswer + "</span>"; if (isc) tg = '<span class="review-tag" style="color:var(--green)">✓ ' + t.correctAnswer + "</span>"; or += '<div class="review-option' + cl + '"><span class="review-letter" style="color:' + lc + '">' + String.fromCharCode(65 + oi) + '</span><span style="flex:1">' + esc(eq.options[oi]) + "</span>" + tg + "</div>"; }
+                } else if (eq.type === "matching") {
+                    for (var ml = 0; ml < eq.left_column.length; ml++) { var cri = -1; for (var cp = 0; cp < eq.correct.length; cp++)if (eq.correct[cp][0] === ml) { cri = eq.correct[cp][1]; break; } var mur = d.ua ? d.ua[ml] : undefined, wp = ""; if (mur !== cri && mur != null && mur !== -1) wp = '<span class="review-match-wrong">' + esc(eq.right_column[mur]) + "</span> → "; or += '<div class="review-match"><span class="review-match-term">' + esc(eq.left_column[ml]) + "</span>" + wp + '<span class="review-match-correct">' + esc(eq.right_column[cri]) + "</span></div>"; }
+                } else if (eq.type === "multiple") {
+                    for (var mo = 0; mo < eq.options.length; mo++) { var mic = eq.correct.indexOf(mo) !== -1, miu = Array.isArray(d.ua) && d.ua.indexOf(mo) !== -1, mc = mic ? " correct-opt" : miu ? " wrong-opt" : "", ml2 = mic ? "var(--green)" : miu ? "var(--red)" : "var(--text-dim)", mt = ""; if (miu && !mic) mt = '<span class="review-tag" style="color:var(--red)">✗</span>'; if (mic && !miu) mt = '<span class="review-tag" style="color:var(--orange)">⚠ ' + t.correctAnswer + "</span>"; if (mic && miu) mt = '<span class="review-tag" style="color:var(--green)">✓</span>'; or += '<div class="review-option' + mc + '"><span class="review-letter" style="color:' + ml2 + '">' + String.fromCharCode(65 + mo) + '</span><span style="flex:1">' + esc(eq.options[mo]) + "</span>" + mt + "</div>"; }
                 }
-
-                reviewHtml += `
-          <div class="card review-card ${partial}">
-            <div class="review-head">
-              <span class="review-meta">${tt.question} ${qNum} • ${typeLabel}</span>
-              <span class="review-pts" style="color:${ptsColor}">${earned}/${max} ${tt.pts}</span>
-            </div>
-            ${renderExtraContent(q.extra_content)}
-            ${q.context && !(q.extra_content && q.extra_content.type === "table") ? `<div class="context-block" style="margin-bottom:12px"><div class="context-text">${escapeHtml(q.context)}</div></div>` : ""}
-            <p class="review-question">${escapeHtml(q.question)}</p>
-            ${optionsReview}
-            ${q.explanation ? `<div class="explanation-box">💡 ${escapeHtml(q.explanation)}</div>` : ""}
-          </div>`;
-            });
+                rh += '<div class="card review-card' + pt + '"><div class="review-head"><span class="review-meta">' + t.question + " " + en + " • " + tl + '</span><span class="review-pts" style="color:' + pc + '">' + d.e + "/" + d.m + " " + t.pts + "</span></div>" + renderExtra(eq.extra_content) + renderCtx(eq) + '<p class="review-question">' + esc(eq.question) + "</p>" + or + (eq.explanation ? '<div class="explanation-box">💡 ' + esc(eq.explanation) + "</div>" : "") + "</div>";
+            }
         }
 
-        app.innerHTML = `
-      <div class="results-page">
-        <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:16px">
-          <button class="btn btn-ghost btn-sm" id="theme-toggle-results">${theme === "dark" ? "☀️" : "🌙"}</button>
-        </div>
-        <div class="container">
-          <div class="card score-card">
-            <p class="score-student">${tt.student}: <strong>${escapeHtml(studentName)}</strong></p>
-            <h1 class="score-title">${tt.results}</h1>
-            <div class="score-big" style="color:${scoreColor}">
-              ${totalEarned}<span class="score-max">/${totalMax}</span>
-            </div>
-            <div class="score-pct">${pct}%</div>
-            <div class="score-stats">
-              <div class="stat-box" style="background:var(--green-soft)">
-                <div class="stat-value" style="color:var(--green)">${correctCount}</div>
-                <div class="stat-label">${tt.correct}</div>
-              </div>
-              <div class="stat-box" style="background:var(--red-soft)">
-                <div class="stat-value" style="color:var(--red)">${incorrectCount}</div>
-                <div class="stat-label">${tt.incorrect}</div>
-              </div>
-              <div class="stat-box" style="background:var(--orange-soft)">
-                <div class="stat-value" style="color:var(--orange)">${skippedCount}</div>
-                <div class="stat-label">${tt.skipped}</div>
-              </div>
-            </div>
-          </div>
+        app.innerHTML = '<div class="results-page"><div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:16px"><button class="btn btn-ghost btn-sm" id="th-t3">' + (theme === "dark" ? "☀️" : "🌙") + "</button></div>" +
+            '<div class="container"><div class="card score-card"><p class="score-student">' + t.student + ": <strong>" + esc(studentName) + "</strong></p>" +
+            '<h1 class="score-title">' + t.results + '</h1><div class="score-big" style="color:' + sC + '">' + te + '<span class="score-max">/' + tm + "</span></div>" +
+            '<div class="score-pct">' + pct + "%</div>" +
+            '<div class="score-stats"><div class="stat-box" style="background:var(--green-soft)"><div class="stat-value" style="color:var(--green)">' + cc + '</div><div class="stat-label">' + t.correct + "</div></div>" +
+            '<div class="stat-box" style="background:var(--red-soft)"><div class="stat-value" style="color:var(--red)">' + ic + '</div><div class="stat-label">' + t.incorrect + "</div></div>" +
+            '<div class="stat-box" style="background:var(--orange-soft)"><div class="stat-value" style="color:var(--orange)">' + sk + '</div><div class="stat-label">' + t.skipped + "</div></div></div></div>" +
+            rh + '<button class="btn btn-primary btn-full" id="bk" style="margin-top:16px;margin-bottom:40px">' + t.backToStart + "</button></div></div>";
 
-          ${reviewHtml}
-
-          <button class="btn btn-primary btn-full" id="back-btn" style="margin-top:16px;margin-bottom:40px">
-            ${tt.backToStart}
-          </button>
-        </div>
-      </div>
-    `;
-
-        $("#theme-toggle-results").onclick = () => {
-            setTheme(theme === "dark" ? "light" : "dark");
-            renderResults(app);
-        };
-        $("#back-btn").onclick = () => {
-            phase = "start";
-            selectedVariant = "";
-            render();
-        };
+        var tb = $("#th-t3"); if (tb) tb.onclick = function () { setTh(theme === "dark" ? "light" : "dark"); rResults(app); };
+        $("#bk").onclick = function () { phase = "start"; selectedVariant = ""; render(); };
     }
 
-    // ─── Init ───
-    async function init() {
-        setTheme("dark");
-        await loadIndex();
-        render();
-    }
-
+    async function init() { setTh("dark"); await loadIndex(); render(); }
     document.addEventListener("DOMContentLoaded", init);
 })();
