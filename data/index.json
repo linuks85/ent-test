@@ -1,0 +1,18 @@
+{
+    "ru": {
+        "Информатика": {
+            "folder": "informatika",
+            "variants": [
+                "variant-1"
+            ]
+        }
+    },
+    "kz": {
+        "Информатика": {
+            "folder": "informatika",
+            "variants": [
+                "variant-1"
+            ]
+        }
+    }
+}

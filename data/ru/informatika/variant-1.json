@@ -1,0 +1,1023 @@
+[
+    {
+        "id": "inf-5001",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Единица измерения информации, равная 8 битам, называется …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Байт",
+            "Бит",
+            "Килобайт",
+            "Мегабайт"
+        ],
+        "correct": 0,
+        "explanation": "1 байт = 8 бит — базовая единица измерения информации.",
+        "source": "Учебник 10 класс",
+        "topic": "Информация и её измерение",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5002",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Устройство для вывода информации на бумажный носитель …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Сканер",
+            "Принтер",
+            "Монитор",
+            "Клавиатура"
+        ],
+        "correct": 1,
+        "explanation": "Принтер — устройство вывода информации на бумагу.",
+        "source": "Учебник 10 класс",
+        "topic": "Устройства компьютера",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5003",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Операционная система относится к классу …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Прикладного ПО",
+            "Системного ПО",
+            "Инструментального ПО",
+            "Сервисного ПО"
+        ],
+        "correct": 1,
+        "explanation": "Операционная система — основа системного программного обеспечения.",
+        "source": "Учебник 10 класс",
+        "topic": "Программное обеспечение",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5004",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Число 1011 в двоичной системе счисления равно в десятичной …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "9",
+            "11",
+            "13",
+            "10"
+        ],
+        "correct": 1,
+        "explanation": "1×8 + 0×4 + 1×2 + 1×1 = 11.",
+        "source": "Учебник 10 класс",
+        "topic": "Системы счисления",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5005",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Протокол, обеспечивающий передачу гипертекстовых документов в сети Интернет, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "FTP",
+            "HTTP",
+            "SMTP",
+            "TCP"
+        ],
+        "correct": 1,
+        "explanation": "HTTP (HyperText Transfer Protocol) предназначен для передачи веб-страниц.",
+        "source": "Учебник 11 класс",
+        "topic": "Компьютерные сети",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5006",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": {
+            "type": "code",
+            "language": "python",
+            "content": "a = 5\nb = 3\na = a + b\nb = a - b\na = a - b"
+        },
+        "question": "Значения переменных a и b после выполнения данного кода …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "a=3, b=5",
+            "a=5, b=3",
+            "a=8, b=5",
+            "a=8, b=3"
+        ],
+        "correct": 0,
+        "explanation": "Алгоритм обмена значений: a=5+3=8, b=8-3=5, a=8-5=3. Итого a=3, b=5.",
+        "source": "Учебник 11 класс",
+        "topic": "Алгоритмизация",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5007",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Расширение файла .xlsx указывает на документ, созданный в программе …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Microsoft Word",
+            "Microsoft Excel",
+            "Microsoft PowerPoint",
+            "Microsoft Access"
+        ],
+        "correct": 1,
+        "explanation": "Расширение .xlsx принадлежит файлам электронных таблиц Microsoft Excel.",
+        "source": "Учебник 10 класс",
+        "topic": "Прикладное ПО",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5008",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Минимальная адресуемая единица информации в оперативной памяти …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Бит",
+            "Байт",
+            "Слово",
+            "Килобайт"
+        ],
+        "correct": 1,
+        "explanation": "Байт — минимальная адресуемая единица оперативной памяти.",
+        "source": "Учебник 10 класс",
+        "topic": "Память компьютера",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5009",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Логическое выражение NOT(A AND B) эквивалентно выражению …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "NOT A AND NOT B",
+            "NOT A OR NOT B",
+            "A OR B",
+            "A AND NOT B"
+        ],
+        "correct": 1,
+        "explanation": "По закону де Моргана: NOT(A AND B) = NOT A OR NOT B.",
+        "source": "Учебник 11 класс",
+        "topic": "Логика",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5010",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "Для кодирования 130 различных символов необходимо минимальное количество бит, равное …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "7",
+            "8",
+            "9",
+            "16"
+        ],
+        "correct": 1,
+        "explanation": "2^7=128<130, 2^8=256≥130, следовательно необходимо 8 бит.",
+        "source": "Учебник 11 класс",
+        "topic": "Кодирование информации",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5011",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Тип данных для хранения целых чисел в языке Python …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "float",
+            "str",
+            "int",
+            "bool"
+        ],
+        "correct": 2,
+        "explanation": "Тип int в Python предназначен для хранения целых чисел.",
+        "source": "Учебник 11 класс",
+        "topic": "Программирование",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5012",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Графический редактор, работающий с векторной графикой, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Adobe Photoshop",
+            "CorelDRAW",
+            "Paint",
+            "GIMP"
+        ],
+        "correct": 1,
+        "explanation": "CorelDRAW — профессиональный редактор векторной графики.",
+        "source": "Учебник 10 класс",
+        "topic": "Компьютерная графика",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5013",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Структура данных, работающая по принципу «первый вошёл — первый вышел», …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Стек",
+            "Очередь",
+            "Дерево",
+            "Граф"
+        ],
+        "correct": 1,
+        "explanation": "Очередь (Queue) — структура FIFO: первый вошёл — первый вышел.",
+        "source": "Учебник 11 класс",
+        "topic": "Структуры данных",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5014",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL-запрос для выборки всех записей из таблицы students с оценкой выше 4 …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "SELECT * FROM students WHERE grade > 4",
+            "SELECT * FROM students IF grade > 4",
+            "GET * FROM students WHERE grade > 4",
+            "SELECT * FROM students HAVING grade > 4"
+        ],
+        "correct": 0,
+        "explanation": "SELECT с WHERE — стандартный синтаксис фильтрации в SQL.",
+        "source": "Учебник 11 класс",
+        "topic": "Базы данных",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5015",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Топология сети, в которой все компьютеры подключены к центральному узлу, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Кольцо",
+            "Шина",
+            "Звезда",
+            "Ячеистая"
+        ],
+        "correct": 2,
+        "explanation": "В топологии «Звезда» все узлы подключены к центральному коммутатору.",
+        "source": "Учебник 11 класс",
+        "topic": "Сети",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5016",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Функция len() в Python возвращает …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Тип объекта",
+            "Длину объекта",
+            "Максимальный элемент",
+            "Сумму элементов"
+        ],
+        "correct": 1,
+        "explanation": "Функция len() возвращает количество элементов (длину) объекта.",
+        "source": "Учебник 11 класс",
+        "topic": "Программирование",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5017",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": {
+            "type": "code",
+            "language": "python",
+            "content": "print(list(range(2, 10, 3)))"
+        },
+        "question": "Результат выполнения данного кода …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "[2, 5, 8]",
+            "[2, 4, 6, 8]",
+            "[2, 5, 8, 11]",
+            "[3, 6, 9]"
+        ],
+        "correct": 0,
+        "explanation": "range(2,10,3) генерирует числа: 2, 5, 8 (начало 2, шаг 3, до 10).",
+        "source": "Учебник 11 класс",
+        "topic": "Программирование",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5018",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Формула в электронной таблице начинается с символа …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "#",
+            "=",
+            "@",
+            "$"
+        ],
+        "correct": 1,
+        "explanation": "В электронных таблицах формулы начинаются со знака равенства (=).",
+        "source": "Учебник 10 класс",
+        "topic": "Электронные таблицы",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5019",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "Алгоритм сортировки со средней сложностью O(n log n), использующий разделение массива, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Сортировка пузырьком",
+            "Сортировка вставками",
+            "Быстрая сортировка",
+            "Сортировка выбором"
+        ],
+        "correct": 2,
+        "explanation": "Быстрая сортировка (QuickSort) использует метод разделения со средней сложностью O(n log n).",
+        "source": "Учебник 11 класс",
+        "topic": "Алгоритмы сортировки",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5020",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "IP-адрес версии 4 состоит из … октетов",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "2",
+            "3",
+            "4",
+            "8"
+        ],
+        "correct": 2,
+        "explanation": "IPv4-адрес состоит из 4 октетов (32 бита).",
+        "source": "Учебник 11 класс",
+        "topic": "Сети",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5021",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Абсолютная ссылка на ячейку B3 в электронной таблице записывается как …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "B3",
+            "$B$3",
+            "B$3",
+            "$B3"
+        ],
+        "correct": 1,
+        "explanation": "Символ $ перед буквой столбца и номером строки фиксирует оба параметра.",
+        "source": "Учебник 10 класс",
+        "topic": "Электронные таблицы",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5022",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Устройство, преобразующее цифровой сигнал в аналоговый для передачи по телефонной линии, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Маршрутизатор",
+            "Модем",
+            "Коммутатор",
+            "Сетевая карта"
+        ],
+        "correct": 1,
+        "explanation": "Модем (модулятор-демодулятор) преобразует цифровой сигнал в аналоговый и обратно.",
+        "source": "Учебник 11 класс",
+        "topic": "Сети",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5023",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Оператор цикла с предусловием в языке Python …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "for",
+            "while",
+            "do...while",
+            "repeat...until"
+        ],
+        "correct": 1,
+        "explanation": "while — оператор цикла с предусловием в Python. do...while отсутствует в Python.",
+        "source": "Учебник 11 класс",
+        "topic": "Программирование",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5024",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "Объём видеопамяти для хранения изображения 1024×768 при глубине цвета 24 бита равен …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "2,25 МБ",
+            "1,5 МБ",
+            "3 МБ",
+            "0,75 МБ"
+        ],
+        "correct": 0,
+        "explanation": "1024×768×24/8 = 2 359 296 байт ≈ 2,25 МБ.",
+        "source": "Учебник 11 класс",
+        "topic": "Кодирование графики",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5025",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Команда для вывода текста на экран в языке Python …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "echo",
+            "printf",
+            "print",
+            "write"
+        ],
+        "correct": 2,
+        "explanation": "Функция print() используется в Python для вывода данных на экран.",
+        "source": "Учебник 11 класс",
+        "topic": "Программирование",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5026",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "context",
+        "difficulty": "B",
+        "context": "Дана таблица базы данных «Ученики»:\n| ID | Фамилия   | Класс | Балл |\n|----|-----------|-------|------|\n| 1  | Асанов    | 11А   | 85   |\n| 2  | Болатова  | 11Б   | 92   |\n| 3  | Сериков   | 11А   | 78   |\n| 4  | Касымова  | 11Б   | 95   |\n| 5  | Нурланов  | 11А   | 88   |",
+        "extra_content": {
+            "type": "table",
+            "content": "| ID | Фамилия   | Класс | Балл |\n|----|-----------|-------|------|\n| 1  | Асанов    | 11А   | 85   |\n| 2  | Болатова  | 11Б   | 92   |\n| 3  | Сериков   | 11А   | 78   |\n| 4  | Касымова  | 11Б   | 95   |\n| 5  | Нурланов  | 11А   | 88   |"
+        },
+        "question": "Количество записей, возвращаемых запросом SELECT * FROM Ученики WHERE Класс='11А' AND Балл>80, равно …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        "correct": 1,
+        "explanation": "Из класса 11А балл выше 80 у Асанова (85) и Нурланова (88) — 2 записи.",
+        "source": "Учебник 11 класс",
+        "topic": "Базы данных",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5027",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "context",
+        "difficulty": "B",
+        "context": "Дана таблица базы данных «Ученики» (см. контекст выше).",
+        "extra_content": null,
+        "question": "Результат запроса SELECT AVG(Балл) FROM Ученики WHERE Класс='11Б' равен …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "87.5",
+            "90",
+            "93.5",
+            "95"
+        ],
+        "correct": 2,
+        "explanation": "Средний балл 11Б: (92+95)/2 = 93.5.",
+        "source": "Учебник 11 класс",
+        "topic": "Базы данных",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5028",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "context",
+        "difficulty": "A",
+        "context": "Дана таблица базы данных «Ученики» (см. контекст выше).",
+        "extra_content": null,
+        "question": "Фамилия ученика с максимальным баллом в таблице …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Болатова",
+            "Касымова",
+            "Нурланов",
+            "Асанов"
+        ],
+        "correct": 1,
+        "explanation": "Максимальный балл 95 у Касымовой.",
+        "source": "Учебник 11 класс",
+        "topic": "Базы данных",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5029",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "context",
+        "difficulty": "B",
+        "context": "Дана таблица базы данных «Ученики» (см. контекст выше).",
+        "extra_content": null,
+        "question": "Результат запроса SELECT COUNT(*) FROM Ученики WHERE Балл >= 85 равен …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
+        "correct": 2,
+        "explanation": "Балл ≥ 85 у четырёх учеников: Асанов(85), Болатова(92), Касымова(95), Нурланов(88).",
+        "source": "Учебник 11 класс",
+        "topic": "Базы данных",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5030",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "context",
+        "difficulty": "C",
+        "context": "Дана таблица базы данных «Ученики» (см. контекст выше).",
+        "extra_content": null,
+        "question": "Запрос, выводящий классы со средним баллом выше 85 в порядке убывания, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "SELECT Класс, AVG(Балл) FROM Ученики GROUP BY Класс HAVING AVG(Балл)>85 ORDER BY AVG(Балл) DESC",
+            "SELECT Класс, AVG(Балл) FROM Ученики WHERE AVG(Балл)>85 GROUP BY Класс",
+            "SELECT Класс FROM Ученики GROUP BY Класс WHERE AVG(Балл)>85",
+            "SELECT Класс, AVG(Балл) FROM Ученики HAVING AVG(Балл)>85"
+        ],
+        "correct": 0,
+        "explanation": "GROUP BY + HAVING для фильтрации групп, ORDER BY DESC для сортировки по убыванию.",
+        "source": "Учебник 11 класс",
+        "topic": "Базы данных",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5031",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "matching",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Установите соответствие между устройством и его функцией.",
+        "left_column": [
+            "Процессор",
+            "Оперативная память"
+        ],
+        "right_column": [
+            "Выполнение вычислений и обработка данных",
+            "Временное хранение данных при работе программ",
+            "Долговременное хранение файлов",
+            "Вывод изображения на экран"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                1
+            ]
+        ],
+        "explanation": "Процессор обрабатывает данные, ОЗУ хранит их временно при работе программ.",
+        "source": "Учебник 10 класс",
+        "topic": "Архитектура компьютера",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5032",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "matching",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Установите соответствие между расширением файла и типом данных.",
+        "left_column": [
+            ".mp3",
+            ".png"
+        ],
+        "right_column": [
+            "Звуковой файл",
+            "Растровое изображение",
+            "Текстовый документ",
+            "Исполняемый файл"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                1
+            ]
+        ],
+        "explanation": ".mp3 — формат сжатия звука, .png — формат растровой графики.",
+        "source": "Учебник 10 класс",
+        "topic": "Файловая система",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5033",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "matching",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Установите соответствие между оператором Python и его назначением.",
+        "left_column": [
+            "//",
+            "%"
+        ],
+        "right_column": [
+            "Целочисленное деление",
+            "Остаток от деления",
+            "Возведение в степень",
+            "Обычное деление"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                1
+            ]
+        ],
+        "explanation": "// — целочисленное деление, % — остаток от деления.",
+        "source": "Учебник 11 класс",
+        "topic": "Программирование",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5034",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "matching",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "Установите соответствие между моделью данных и её характеристикой.",
+        "left_column": [
+            "Реляционная",
+            "Иерархическая"
+        ],
+        "right_column": [
+            "Данные хранятся в связанных таблицах",
+            "Данные организованы в виде дерева",
+            "Данные представлены в виде графа",
+            "Данные хранятся последовательно"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                1
+            ]
+        ],
+        "explanation": "Реляционная модель — таблицы, иерархическая — древовидная структура.",
+        "source": "Учебник 11 класс",
+        "topic": "Базы данных",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5035",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "matching",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "Установите соответствие между протоколом и уровнем модели OSI.",
+        "left_column": [
+            "HTTP",
+            "TCP"
+        ],
+        "right_column": [
+            "Прикладной уровень",
+            "Транспортный уровень",
+            "Канальный уровень",
+            "Физический уровень"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                1
+            ]
+        ],
+        "explanation": "HTTP — прикладной уровень, TCP — транспортный уровень модели OSI.",
+        "source": "Учебник 11 класс",
+        "topic": "Сети",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5036",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "multiple",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Устройства, относящиеся к устройствам ввода информации, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Клавиатура",
+            "Монитор",
+            "Сканер",
+            "Принтер",
+            "Микрофон",
+            "Колонки"
+        ],
+        "correct": [
+            0,
+            2,
+            4
+        ],
+        "explanation": "Клавиатура, сканер и микрофон — устройства ввода.",
+        "source": "Учебник 10 класс",
+        "topic": "Устройства компьютера",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5037",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "multiple",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "Свойства алгоритма, обязательные для его корректности, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Дискретность",
+            "Случайность",
+            "Результативность",
+            "Цикличность",
+            "Определённость",
+            "Бесконечность"
+        ],
+        "correct": [
+            0,
+            2,
+            4
+        ],
+        "explanation": "Дискретность, результативность и определённость — обязательные свойства алгоритма.",
+        "source": "Учебник 11 класс",
+        "topic": "Алгоритмизация",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5038",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "multiple",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Языки программирования высокого уровня …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Python",
+            "Ассемблер",
+            "Java",
+            "Машинный код",
+            "C++",
+            "Двоичный код"
+        ],
+        "correct": [
+            0,
+            2,
+            4
+        ],
+        "explanation": "Python, Java и C++ — языки высокого уровня.",
+        "source": "Учебник 11 класс",
+        "topic": "Программирование",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5039",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "multiple",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "Характеристики, относящиеся к растровой графике, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Изображение состоит из пикселей",
+            "Масштабирование без потери качества",
+            "Фотореалистичность изображений",
+            "Малый размер файлов",
+            "Зависимость качества от разрешения",
+            "Описание через математические формулы"
+        ],
+        "correct": [
+            0,
+            2,
+            4
+        ],
+        "explanation": "Растровая графика: пиксели, фотореалистичность, зависимость от разрешения.",
+        "source": "Учебник 10 класс",
+        "topic": "Компьютерная графика",
+        "author": "NotebookLM Expert"
+    },
+    {
+        "id": "inf-5040",
+        "subject": "Информатика",
+        "lang": "ru",
+        "type": "multiple",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Компоненты, входящие в состав системного блока компьютера, …",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Материнская плата",
+            "Клавиатура",
+            "Жёсткий диск",
+            "Монитор",
+            "Блок питания",
+            "Принтер"
+        ],
+        "correct": [
+            0,
+            2,
+            4
+        ],
+        "explanation": "Материнская плата, жёсткий диск и блок питания находятся в системном блоке.",
+        "source": "Учебник 10 класс",
+        "topic": "Архитектура компьютера",
+        "author": "NotebookLM Expert"
+    }
+]
