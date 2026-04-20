@@ -49,9 +49,13 @@
         if (n <= 30) { if (ua === null || ua === undefined) return { e: 0, m: 1 }; return { e: ua === q.correct ? 1 : 0, m: 1 }; }
         if (n <= 35) { if (!ua || typeof ua !== "object") return { e: 0, m: 2 }; var cc = 0; for (var p = 0; p < q.correct.length; p++)if (ua[q.correct[p][0]] === q.correct[p][1]) cc++; return { e: cc, m: 2 }; }
         if (!ua || !Array.isArray(ua) || !ua.length) return { e: 0, m: 2 };
-        var er = 0; for (var u = 0; u < ua.length; u++)if (q.correct.indexOf(ua[u]) === -1) er++;
-        for (var c = 0; c < q.correct.length; c++)if (ua.indexOf(q.correct[c]) === -1) er++;
-        return { e: Math.max(0, 2 - er), m: 2 };
+        var nc = q.correct.length, cs = 0;
+        for (var u = 0; u < ua.length; u++) if (q.correct.indexOf(ua[u]) !== -1) cs++;
+        var ws = ua.length - cs;
+        if (ws >= 2) return { e: 0, m: 2 };
+        if (nc === 1) return { e: cs === 1 && ws === 0 ? 2 : cs === 1 ? 1 : 0, m: 2 };
+        if (nc === 2) return { e: cs === 2 && ws === 0 ? 2 : cs >= 1 ? 1 : 0, m: 2 };
+        return { e: cs === nc && ws === 0 ? 2 : cs >= 2 ? 1 : 0, m: 2 };
     }
 
     async function loadIndex() { try { dataIndex = await (await fetch("data/index.json")).json(); } catch (e) { dataIndex = {}; } }
