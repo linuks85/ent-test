@@ -70,7 +70,7 @@
     function popVar() {
         var s = $("#var-sel"); s.innerHTML = '<option value="">—</option>'; s.disabled = !selectedSubject;
         if (!selectedSubject) return; var sd = (dataIndex[lang] || {})[selectedSubject]; if (!sd) return;
-        sd.variants.forEach(function (v, i) { s.innerHTML += '<option value="' + esc(v) + '">' + (T().variantLabel || "Вариант") + " " + (i + 1) + "</option>"; });
+        sd.variants.forEach(function (v) { s.innerHTML += '<option value="' + esc(v) + '">' + esc(v) + "</option>"; });
     }
     function hasA(qi) { var q = questions[qi], a = answers[qi]; if (!q) return false; if (q.type === "single" || q.type === "context") return a != null; if (q.type === "matching") return a && typeof a === "object" && Object.values(a).some(function (v) { return v !== -1 && v !== undefined; }); if (q.type === "multiple") return Array.isArray(a) && a.length > 0; return false; }
     function cntA() { var c = 0; for (var i = 0; i < questions.length; i++)if (hasA(i)) c++; return c; }
