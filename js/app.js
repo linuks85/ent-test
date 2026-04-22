@@ -3,6 +3,8 @@
     "use strict";
     var lang = "ru", theme = "dark", phase = "start", studentName = "", selectedSubject = "", selectedVariant = "";
     var dataIndex = {}, questions = [], shuffleMap = [], currentQ = 0, answers = {}, timeLeft = 3600, timerInterval = null;
+    var violations = 0, MAX_VIOLATIONS = 3, proctorActive = false, violationModalOpen = false;
+    var _onVisChange = null, _onFSChange = null, _onCtxMenu = null, _onKeydown = null;
     function $(s) { return document.querySelector(s); }
     function $$(s) { return document.querySelectorAll(s); }
     function T() { return I18N[lang]; }
@@ -62,6 +64,53 @@
     async function loadVar(lc, f, v) { try { return await (await fetch("data/" + lc + "/" + f + "/" + v + ".json")).json(); } catch (e) { return []; } }
     function setTh(t) { theme = t; document.documentElement.setAttribute("data-theme", t); }
 
+    function enterFS() { var el = document.documentElement; if (el.requestFullscreen) el.requestFullscreen().catch(function(){}); else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen(); }
+    function exitFS() { if (document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); else if (document.webkitExitFullscreen && document.webkitFullscreenElement) document.webkitExitFullscreen(); }
+    function isFS() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+
+    function showViolation(reason) {
+        if (!proctorActive || violationModalOpen || phase !== "test") return;
+        violationModalOpen = true; violations++;
+        var t = T(), isLast = violations >= MAX_VIOLATIONS;
+        var div = document.createElement("div"); div.id = "pc-w";
+        div.innerHTML = '<div class="modal-overlay"><div class="modal-box" style="text-align:center">' +
+            '<div style="font-size:2.5rem">⚠️</div>' +
+            '<h2 class="modal-title" style="color:var(--red)">' + t.proctor_warning + '</h2>' +
+            '<p class="modal-text">' + t.proctor_msg.replace("{reason}", reason).replace("{count}", violations).replace("{max}", MAX_VIOLATIONS) + '</p>' +
+            (isLast ? '<p class="modal-warn" style="color:var(--red)">' + t.proctor_final + '</p>' : '') +
+            '<button class="btn ' + (isLast ? "btn-danger" : "btn-primary") + '" id="pc-ok" style="margin-top:16px;padding:12px 32px">' + (isLast ? t.ok : t.proctor_continue) + '</button></div></div>';
+        document.body.appendChild(div);
+        document.getElementById("pc-ok").onclick = function() {
+            violationModalOpen = false; document.body.removeChild(div);
+            if (isLast) { teardownProctor(); finish(); }
+            else { if (!isFS()) enterFS(); rTest(document.querySelector("#app")); }
+        };
+    }
+
+    function setupProctor() {
+        proctorActive = true; violations = 0; violationModalOpen = false;
+        _onVisChange = function() { if (document.hidden) showViolation(T().proctor_tab); };
+        _onFSChange = function() { if (!isFS()) showViolation(T().proctor_fullscreen); };
+        _onCtxMenu = function(e) { if (phase === "test") e.preventDefault(); };
+        _onKeydown = function(e) { if (phase !== "test") return; if ((e.ctrlKey || e.metaKey) && ["c","a","u","s","p"].indexOf(e.key.toLowerCase()) !== -1) e.preventDefault(); };
+        document.addEventListener("visibilitychange", _onVisChange);
+        document.addEventListener("fullscreenchange", _onFSChange);
+        document.addEventListener("webkitfullscreenchange", _onFSChange);
+        document.addEventListener("contextmenu", _onCtxMenu);
+        document.addEventListener("keydown", _onKeydown);
+        enterFS();
+    }
+
+    function teardownProctor() {
+        if (!proctorActive) return;
+        proctorActive = false;
+        if (_onVisChange) { document.removeEventListener("visibilitychange", _onVisChange); _onVisChange = null; }
+        if (_onFSChange) { document.removeEventListener("fullscreenchange", _onFSChange); document.removeEventListener("webkitfullscreenchange", _onFSChange); _onFSChange = null; }
+        if (_onCtxMenu) { document.removeEventListener("contextmenu", _onCtxMenu); _onCtxMenu = null; }
+        if (_onKeydown) { document.removeEventListener("keydown", _onKeydown); _onKeydown = null; }
+        exitFS();
+    }
+
     function popSubj() {
         var s = $("#subj-sel"); s.innerHTML = '<option value="">—</option>';
         var ld = dataIndex[lang] || {}; Object.keys(ld).forEach(function (k) { s.innerHTML += '<option value="' + esc(k) + '">' + esc(k) + "</option>"; });
@@ -92,11 +141,11 @@
             if (q.type === "matching") return { si: shuf(q.right_column.map(function (_, i) { return i; })), tp: "right_column" };
             return null;
         });
-        answers = {}; currentQ = 0; timeLeft = 3600; phase = "test"; render();
+        answers = {}; currentQ = 0; timeLeft = 3600; phase = "test"; render(); setupProctor();
         clearInterval(timerInterval);
         timerInterval = setInterval(function () { timeLeft--; if (timeLeft <= 0) { clearInterval(timerInterval); phase = "timeup"; render(); return; } var el = $("#timer"); if (el) { el.textContent = "⏱ " + fmt(timeLeft); el.className = "timer" + (timeLeft <= 300 ? " warning" : ""); } }, 1000);
     }
-    function finish() { clearInterval(timerInterval); phase = "results"; render(); }
+    function finish() { teardownProctor(); clearInterval(timerInterval); phase = "results"; render(); }
     function render() { var a = $("#app"); if (phase === "start") rStart(a); else if (phase === "test") rTest(a); else if (phase === "confirm") rConfirm(); else if (phase === "timeup") rTimeUp(a); else if (phase === "results") rResults(a); }
 
     function rStart(app) {
@@ -158,7 +207,7 @@
 
         app.innerHTML =
             '<div class="test-header"><div class="container test-header-inner"><div><span class="q-num">' + t.question + " " + qn + '</span><span class="q-total"> ' + t.of + " " + questions.length + "</span></div>" +
-            '<div style="display:flex;align-items:center;gap:12px"><span class="timer" id="timer">⏱ ' + fmt(timeLeft) + '</span><button class="btn btn-ghost btn-sm" id="th-t2">' + (theme === "dark" ? "☀️" : "🌙") + "</button></div></div></div>" +
+            '<div style="display:flex;align-items:center;gap:12px">' + (violations > 0 ? '<span class="vio-badge">⚠️ ' + violations + '/' + MAX_VIOLATIONS + '</span>' : '') + '<span class="timer" id="timer">⏱ ' + fmt(timeLeft) + '</span><button class="btn btn-ghost btn-sm" id="th-t2">' + (theme === "dark" ? "☀️" : "🌙") + "</button></div></div></div>" +
             '<div class="nav-dots-bar"><div class="container"><div class="nav-dots">' + dots + "</div></div></div>" +
             '<div class="container" style="padding:0 16px"><div class="section-bar"><span class="section-label">' + sl + '</span><span class="section-pts">' + mp + " " + t.pts + "</span></div>" +
             '<div class="question-area">' + extraHTML + ctxHTML + '<p class="question-text">' + esc(q.question) + "</p>" + oh + "</div></div>" +
@@ -225,7 +274,9 @@
             '<div class="score-pct">' + pct + "%</div>" +
             '<div class="score-stats"><div class="stat-box" style="background:var(--green-soft)"><div class="stat-value" style="color:var(--green)">' + cc + '</div><div class="stat-label">' + t.correct + "</div></div>" +
             '<div class="stat-box" style="background:var(--red-soft)"><div class="stat-value" style="color:var(--red)">' + ic + '</div><div class="stat-label">' + t.incorrect + "</div></div>" +
-            '<div class="stat-box" style="background:var(--orange-soft)"><div class="stat-value" style="color:var(--orange)">' + sk + '</div><div class="stat-label">' + t.skipped + "</div></div></div></div>" +
+            '<div class="stat-box" style="background:var(--orange-soft)"><div class="stat-value" style="color:var(--orange)">' + sk + '</div><div class="stat-label">' + t.skipped + "</div></div>" +
+            (violations > 0 ? '<div class="stat-box" style="background:var(--red-soft)"><div class="stat-value" style="color:var(--red)">' + violations + '</div><div class="stat-label">' + t.violations + "</div></div>" : "") +
+            "</div></div>" +
             rh + '<button class="btn btn-primary btn-full" id="bk" style="margin-top:16px;margin-bottom:40px">' + t.backToStart + "</button></div></div>";
 
         var tb = $("#th-t3"); if (tb) tb.onclick = function () { setTh(theme === "dark" ? "light" : "dark"); rResults(app); };

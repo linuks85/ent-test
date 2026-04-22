@@ -815,3 +815,22 @@ body {
         font-size: 15px;
     }
 }
+
+/* ─── Proctoring ─── */
+.vio-badge {
+    background: var(--red-soft);
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.question-area,
+.options-list,
+.match-card {
+    user-select: none;
+    -webkit-user-select: none;
+}

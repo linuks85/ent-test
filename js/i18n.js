@@ -45,6 +45,13 @@ const I18N = {
         noVariants: "Нет вариантов",
         fillName: "Введите ФИО для начала",
         variantLabel: "Вариант",
+        proctor_warning: "Нарушение зафиксировано",
+        proctor_tab: "Переключение вкладки",
+        proctor_fullscreen: "Выход из полноэкранного режима",
+        proctor_msg: "{reason}. Предупреждение {count} из {max}.",
+        proctor_final: "Достигнут лимит нарушений. Тест будет завершён принудительно.",
+        proctor_continue: "Продолжить тест",
+        violations: "Нарушений",
     },
     kz: {
         appTitle: "ҰБТ Тренажёр",
@@ -92,5 +99,12 @@ const I18N = {
         noVariants: "Нұсқалар жоқ",
         fillName: "Бастау үшін аты-жөніңізді енгізіңіз",
         variantLabel: "Нұсқа",
+        proctor_warning: "Бұзушылық тіркелді",
+        proctor_tab: "Қойындыны ауыстыру",
+        proctor_fullscreen: "Толық экрандан шығу",
+        proctor_msg: "{reason}. Ескерту {count}/{max}.",
+        proctor_final: "Бұзушылықтар шегіне жетті. Тест аяқталады.",
+        proctor_continue: "Тестті жалғастыру",
+        violations: "Бұзушылықтар",
     }
 };
