@@ -3,7 +3,8 @@
         "Информатика": {
             "folder": "informatika",
             "variants": [
-                "ru-class-7"
+                "ru-class-7",
+                "ru-almatykitap-8"
             ]
         }
     },
