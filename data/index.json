@@ -12,7 +12,8 @@
         "Информатика": {
             "folder": "informatika",
             "variants": [
-                "kz-almatykitap-7"
+                "kz-almatykitap-7",
+                "kz-almatykitap-8"
             ]
         }
     }
