@@ -6,7 +6,8 @@
                 "ru-class-7",
                 "ru-almatykitap-8",
                 "ru-digital-kazakhstan",
-                "ru-almatykitap-9"
+                "ru-almatykitap-9",
+                "ru-computer-systems1"
             ]
         }
     },
@@ -16,7 +17,8 @@
             "variants": [
                 "kz-almatykitap-7",
                 "kz-almatykitap-8",
-                "kz-digital-kazakhstan"
+                "kz-digital-kazakhstan",
+                "kz-almatykitap-9"
             ]
         }
     }

@@ -831,10 +831,10 @@
         "options": [
             "Microsoft Access",
             "MySQL",
-            "Adobe Photoshop",
+            "Adobe Database",
             "Oracle",
-            "CorelDRAW",
-            "WinRAR"
+            "CorelDRAW Select",
+            "WinRAR Database Edition"
         ],
         "correct": [
             0,
