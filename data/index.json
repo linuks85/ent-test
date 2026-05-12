@@ -3,6 +3,7 @@
         "Информатика": {
             "folder": "informatika",
             "variants": [
+                "ru-almatykitap-10",
                 "ru-class-7",
                 "ru-almatykitap-8",
                 "ru-digital-kazakhstan",
@@ -17,6 +18,7 @@
         "Информатика": {
             "folder": "informatika",
             "variants": [
+                "kz-almatykitap-10",
                 "kz-almatykitap-7",
                 "kz-almatykitap-8",
                 "kz-digital-kazakhstan",
