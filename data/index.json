@@ -3,6 +3,7 @@
         "Информатика": {
             "folder": "informatika",
             "variants": [
+                "ru-database-excel",
                 "ru-almatykitap-11",
                 "ru-almatykitap-10",
                 "ru-class-7",
