@@ -1,0 +1,935 @@
+[
+    {
+        "approved": "YES",
+        "id": "inf-0001",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Кестеде бастапқы кілт қызметін атқаратын жасанды түрде қосылған кілт",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Суррогатты кілт",
+            "Логикалық кілт",
+            "Сыртқы кілт",
+            "Ішкі кілт"
+        ],
+        "correct": 0,
+        "explanation": "Суррогатты кілт — кестедегі жолдардың бірегейлігін қамтамасыз ету үшін бастапқы кілт ретінде қолданылатын жасанды түрде қосылған өріс."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0002",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Дерекқорды басқару жүйелерінде бір символды сақтау үшін CHAR(5) деректер типін қолданған кездегі жадтың бөліну ерекшелігі.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "1 байт жад бөлінеді",
+            "5 байт жад бөлінеді",
+            "Жад динамикалық түрде бөлінеді",
+            "255 байт жад бөлінеді"
+        ],
+        "correct": 1,
+        "explanation": "CHAR типі үшін жақшада көрсетілген байт саны мәтіннің нақты ұзындығына қарамастан тұрақты түрде бөлінеді."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0003",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "VARCHAR(255) типін қолдану кезінде SQL жүйесінде айнымалы ұзындықтағы мәтіндік деректерді сақтау ерекшеліктері.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Баяу жұмыс істейді, бірақ жадты тиімді пайдаланады",
+            "Жылдам жұмыс істейді және жадты тиімді пайдаланады",
+            "Жылдам жұмыс істейді, бірақ жадты тиімсіз пайдаланады",
+            "Мәтін ұзындығы әрқашан 255-тен үлкен болуы керек"
+        ],
+        "correct": 0,
+        "explanation": "VARCHAR типі айнымалы ұзындықтағы жолдар үшін жадты тиімді пайдаланады, бірақ тұрақты ұзындықтағы типтермен салыстырғанда баяу жұмыс істеуі мүмкін."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0004",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL жүйесінде таңбалы форматтағы TINYINT бүтін сан типінің рұқсат етілген мәндер диапазоны.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "0-ден 255-ке дейін",
+            "-128-ден 127-ге дейін",
+            "0-ден 65535-ке дейін",
+            "-32768-ден 32767-ге дейін"
+        ],
+        "correct": 1,
+        "explanation": "TINYINT типі стандартты таңбалы көрсетілімде -128-ден 127-ге дейінгі бүтін сандарды сақтай алады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0005",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Дерекқор кестесіндегі баған үшін FLOAT(5, 2) деректер типін жариялау параметрлерінің мағынасы.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "-999.99-дан 999.99-ға дейінгі мәндер диапазоны",
+            "-99.99-дан 99.99-ға дейінгі мәндер диапазоны",
+            "-99999-дан 99999-ға дейінгі мәндер диапазоны",
+            "-99999.99-дан 99999.99-ға дейінгі мәндер диапазоны"
+        ],
+        "correct": 0,
+        "explanation": "FLOAT(5,2) типінде бірінші сан жалпы ұзындықты, ал екінші сан үтірден кейінгі таңбалар санын көрсетеді, бұл 999.99 мәніне дейінгі диапазонға сәйкес келеді."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0006",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL жүйесінде деректерді шығарған кезде TIMESTAMP типінің көрсетілу форматы",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "YYYY:MM:DD",
+            "1970-01-01 00:00:00 UTC",
+            "YYYY-MM-DD HH:MM:SS",
+            "2038-01-09 03:14:07 UTC"
+        ],
+        "correct": 2,
+        "explanation": "TIMESTAMP типі 1970-01-01 күнінен бастап секундтар санын сақтайды және стандартты күн мен уақыт форматында көрсетіледі."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0007",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Бар кесте құрылымына жаңа баған қосу үшін қолданылатын SQL командасының синтаксисі.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "ALTER TABLE table_name ADD COLUMN column_name type",
+            "UPDATE TABLE table_name ADD COLUMN column_name type",
+            "INSERT INTO table_name ADD column_name type",
+            "ALTER DATABASE table_name ADD COLUMN column_name type"
+        ],
+        "correct": 0,
+        "explanation": "Жаңа баған қосу үшін ALTER TABLE командасы ADD COLUMN операторымен бірге қолданылады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0008",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL сұраныстарында нәтижелік деректер жиынын өңдеу үшін DISTINCT кілт сөзінің қолданылуы.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Мәндерді өсу ретімен сұрыптау",
+            "Жолдар санын шектеу",
+            "Тек бірегей мәндерді таңдау",
+            "Деректерді санаттар бойынша топтау"
+        ],
+        "correct": 2,
+        "explanation": "DISTINCT операторы SELECT-тен кейін қолданылады және қайталанатын мәндерді алып тастап, тек бірегей мәндерді қайтарады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0009",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL тіліндегі BETWEEN операторын мәндер диапазоны бойынша деректерді сүзгілеу үшін қолдану.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Мәннің коллекцияда бар-жоғын тексеру",
+            "Мәтіндік үлгі бойынша іздеу",
+            "Мәннің берілген аралықта орналасуын тексеру",
+            "Бірнеше сүзгі шарттарын біріктіру"
+        ],
+        "correct": 2,
+        "explanation": "BETWEEN операторы мәннің бастапқы және соңғы параметрлер арасындағы диапазонға кіретінін тексереді."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0010",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Дерекқордағы мәтіндік ақпаратты іздеу үшін LIKE операторын қолданғандағы 'A%' үлгісінің мағынасы.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Жолда 'A' символы бар",
+            "Жол 'A' символынан басталады",
+            "'A' символы екінші орында орналасқан",
+            "Жол 'A' символымен аяқталады"
+        ],
+        "correct": 1,
+        "explanation": "Үлгінің соңындағы пайыз белгісі көрсетілген символдан немесе мәтіннен басталатын жолдарды іздеуді білдіреді."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0011",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL құрылымдалған сұраныстар тілінде сандық типтермен жұмыс істеу кезінде SQRT() кірістірілген функциясының қызметі.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Элементтердің қосындысын есептеу",
+            "Орташа мәнді табу",
+            "Квадрат түбірін шығару",
+            "Ең үлкен мәнді анықтау"
+        ],
+        "correct": 2,
+        "explanation": "SQRT() функциясы сандық мәндердің квадрат түбірін есептеу үшін қолданылады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0012",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL тілінде кестенің бірнеше бағанындағы жолдық деректерді өңдеу үшін CONCAT() функциясын қолдану.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Сандық мәндерді қосу",
+            "Мәтінді бір бағанға біріктіру",
+            "Әріптердің регистрін өзгерту",
+            "Жолдағы символдар санын есептеу"
+        ],
+        "correct": 1,
+        "explanation": "CONCAT() функциясы әртүрлі өрістердегі мәтіндерді біріктіріп, оларды бір жол ретінде көрсетуге мүмкіндік береді."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0013",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Microsoft Excel электрондық кестелерінде сандық деректер енгізілгенде ұяшықта '####' символдарының көрсетілу себебі.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Формуладағы қате",
+            "Сан ұяшыққа сыймай тұр",
+            "Ұяшық өңдеуге бұғатталған",
+            "Күн форматы қате"
+        ],
+        "correct": 1,
+        "explanation": "Егер сандық мән немесе күн баған ені жеткіліксіз болғандықтан толық көрсетілмесе, Excel тор таңбаларын көрсетеді."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0014",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Microsoft Excel электрондық кесте редакторындағы ПСТР функциясының қызметі.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Жолдың ұзындығын анықтау",
+            "Жолдың бір бөлігін басқа мәтінмен ауыстыру",
+            "Көрсетілген орыннан белгілі бір символдар санын шығару",
+            "Мәтінді бас әріпке айналдыру"
+        ],
+        "correct": 2,
+        "explanation": "ПСТР функциясы мәтіннен көрсетілген орыннан бастап берілген ұзындықтағы ішкі жолды бөліп алады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0015",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Кестені жою командасы",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "DROP TABLE users",
+            "DELETE TABLE users",
+            "REMOVE TABLE users",
+            "CLEAR TABLE users"
+        ],
+        "correct": 0,
+        "explanation": "SQL тілінде кестені жою үшін DROP TABLE <кесте_атауы> командасы қолданылады. Бұл жағдайда — DROP TABLE users."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0016",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": {
+            "type": "table",
+            "content": "| Кесте A | Кесте B |\n|---|---|\n| ID: 1 | ID: 1 |\n| ID: 2 | ID: 3 |"
+        },
+        "question": "ID өрісі бойынша екі кестеде де сәйкес келетін жолдарды ғана қайтаратын SQL біріктіру түрін анықтаңыз.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "LEFT JOIN",
+            "RIGHT JOIN",
+            "INNER JOIN",
+            "SAMPLE JOIN"
+        ],
+        "correct": 2,
+        "explanation": "INNER JOIN байланыстырылатын екі кестеде де сәйкес мәндері бар жазбаларды ғана қайтарады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0017",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Дерекқор кестесіндегі бір жазбаның бірнеше өрісінің мәндерін бір уақытта өзгертуге арналған UPDATE командасының синтаксисін талдау.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "UPDATE db SET A='1' AND B='2' WHERE id=1",
+            "UPDATE db SET A='1', B='2' WHERE id=1",
+            "UPDATE db SET A='1'- B='2' WHERE id=1",
+            "UPDATE db SET A='1'; B='2' WHERE id=1"
+        ],
+        "correct": 1,
+        "explanation": "SQL тілінде бірнеше өрісті жаңарту кезінде олар SET операторында үтір арқылы жазылады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0018",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Excel электрондық кестесінде =ОСТАТ(25; 7) формуласының нәтижесін есептеу.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "3",
+            "4",
+            "1",
+            "0"
+        ],
+        "correct": 1,
+        "explanation": "ОСТАТ функциясы бөлуден қалған қалдықты қайтарады; 25-ті 7-ге бөлгенде қалдық 4 болады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0019",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "db кестесінен summa бағанын жою командасы",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "ALTER TABLE db DROP ROW summa DOUBLE",
+            "ALTER TABLE db DELETE COLUMN summa DOUBLE",
+            "ALTER TABLE db REMOVE COLUMN summa DOUBLE",
+            "ALTER TABLE db DROP COLUMN summa DOUBLE"
+        ],
+        "correct": 3,
+        "explanation": "SQL тілінде бағанды жою үшін ALTER TABLE <кесте_атауы> DROP COLUMN <баған_атауы> командасы қолданылады. Бұл жағдайда — ALTER TABLE db DROP COLUMN summa DOUBLE."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0020",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL сұранысында ORDER BY және DESC операторларының комбинациясын ақпаратты реттеу үшін қолдану.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Өсу ретімен сұрыптау",
+            "Бірегей мәндер бойынша топтау",
+            "Кему ретімен сұрыптау",
+            "Алғашқы жазбалармен шектеу"
+        ],
+        "correct": 2,
+        "explanation": "ORDER BY операторы DESC (descending) операторымен бірге нәтижелерді үлкеннен кішіге қарай сұрыптайды."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0021",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": "CREATE table t(name VARCHAR(50), age INT);",
+        "extra_content": null,
+        "question": "Кестеге деректер қосудың дұрыс нұсқаларын көрсетіңіз:",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "INSERT INTO t(name, age) VALUES(\"Beibit\",17)",
+            "INSERT INTO t values(\"Dastan\",17)",
+            "INSERT INTO t(name) VALUES(\"Zhantore\")",
+            "Барлық жауап дұрыс"
+        ],
+        "correct": 3,
+        "explanation": "Үш нұсқа да дұрыс: бағандар мен мәндерді нақты көрсетуге болады, барлық мәндерді баған аттарынсыз енгізуге болады, сондай-ақ тек бір бағанға ғана дерек енгізуге болады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0022",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL кестесіндегі әр жол аясында бірнеше сандық баған мәндерінің қосындысын есептеудің дұрыс тәсілін анықтау.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "SUM(col1, col2, col3)",
+            "col1 + col2 + col3",
+            "SUM(col1) + SUM(col2)",
+            "ADD(col1, col2)"
+        ],
+        "correct": 1,
+        "explanation": "Бір жолдағы өріс мәндерін қосу үшін SUM агрегаттық функциясынан емес, кәдімгі қосу операторы қолданылады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0023",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "DROP DATABASE командасын DELETE FROM table_name командасымен деректер тұтастығы тұрғысынан салыстыру нәтижелерін талдау.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Екі команда да тек жазбаларды жояды",
+            "DROP бүкіл дерекқорды жояды, DELETE — жазбаларды",
+            "DELETE құрылымды жояды, DROP — деректерді",
+            "Командалардың әрекеті бірдей"
+        ],
+        "correct": 1,
+        "explanation": "DROP командасы бүкіл объектіні (дерекқорды немесе кестені) жояды, ал DELETE кесте ішіндегі жолдарды жоюға арналған."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0024",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "Деректер типтері туралы білімді біріктіру: екі ондық таңба дәлдігімен ақша сомасын сақтау үшін ең тиімді типті таңдау.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "TINYINT",
+            "FLOAT(10, 2)",
+            "VARCHAR(10)",
+            "DATE"
+        ],
+        "correct": 1,
+        "explanation": "Дәлдігі көрсетілген FLOAT типі қаржылық сомалар сияқты бөлшек сандарды тиімді сақтауға мүмкіндік береді."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0025",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "single",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "SELECT командасынан кейінгі '*' символы нені білдіреді",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Барлық жазбалар",
+            "Барлық өрістер",
+            "Барлық шарттар",
+            "Барлық өрнектер"
+        ],
+        "correct": 1,
+        "explanation": "SQL тілінде SELECT-тен кейінгі * символы кестедегі барлық бағандарды (өрістерді) таңдауды білдіреді."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0026",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "context",
+        "difficulty": "A",
+        "context": "'EduCourses' компаниясы онлайн оқыту платформасын басқарады. Дерекқорда пайдаланушылар, курстар және сабақтарды өту туралы мәліметтер сақталады. 'Users' кестесінде студенттер туралы ақпарат бар: аты, email, тіркелу күні және жазылым мәртебесі. 'Courses' кестесі оқу материалдарын сипаттайды: курс атауы, санаты, ұзақтығы және бағасы. 'Enrollments' кестесі студенттің курсқа жазылғанын тіркейді, соның ішінде басталу күні мен прогресі көрсетіледі. Нәтижелерді бақылау үшін 'Assignments' кестесі қолданылады, онда орындалған тапсырмалар, бағалар және оқытушылардың пікірлері туралы ақпарат сақталады. Мұндай құрылым курстардың танымалдылығын, студенттердің үлгерімін талдауға және платформа әкімшілері үшін есептер құруға мүмкіндік береді.",
+        "extra_content": null,
+        "question": "2025-01-01 күнінен кейін тіркелген барлық студенттерді таңдайтын SQL сұранысын көрсетіңіз.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "SELECT * FROM Users WHERE registration_date > '2025-01-01';",
+            "SELECT * FROM Users WHERE registration_date < '2025-01-01';",
+            "SELECT registration_date FROM Users;",
+            "UPDATE Users SET registration_date = '2025-01-01';"
+        ],
+        "correct": 0,
+        "explanation": "Көрсетілген күннен кейін тіркелген студенттерді таңдау үшін WHERE registration_date > '2025-01-01' шартымен бірге SELECT операторы қолданылады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0027",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "context",
+        "difficulty": "A",
+        "context": "'EduCourses' компаниясы онлайн оқыту платформасын басқарады. Дерекқорда пайдаланушылар, курстар және сабақтарды өту туралы мәліметтер сақталады. 'Users' кестесінде студенттер туралы ақпарат бар: аты, email, тіркелу күні және жазылым мәртебесі. 'Courses' кестесі оқу материалдарын сипаттайды: курс атауы, санаты, ұзақтығы және бағасы. 'Enrollments' кестесі студенттің курсқа жазылғанын тіркейді, соның ішінде басталу күні мен прогресі көрсетіледі. Нәтижелерді бақылау үшін 'Assignments' кестесі қолданылады, онда орындалған тапсырмалар, бағалар және оқытушылардың пікірлері туралы ақпарат сақталады. Мұндай құрылым курстардың танымалдылығын, студенттердің үлгерімін талдауға және платформа әкімшілері үшін есептер құруға мүмкіндік береді.",
+        "extra_content": null,
+        "question": "Users және Enrollments кестелері арасындағы байланыс түрі қандай?",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "Бірден-көпке",
+            "Бірден-бірге",
+            "Көптен-көпке",
+            "Кестелер арасында байланыс жоқ"
+        ],
+        "correct": 0,
+        "explanation": "Users және Enrollments кестелері арасындағы байланыс әдетте «бірден-көпке» түрінде жүзеге асады: бір пайдаланушыда бірнеше тіркелу жазбасы болуы мүмкін."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0028",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "context",
+        "difficulty": "A",
+        "context": "'EduCourses' компаниясы онлайн оқыту платформасын басқарады. Дерекқорда пайдаланушылар, курстар және сабақтарды өту туралы мәліметтер сақталады. 'Users' кестесінде студенттер туралы ақпарат бар: аты, email, тіркелу күні және жазылым мәртебесі. 'Courses' кестесі оқу материалдарын сипаттайды: курс атауы, санаты, ұзақтығы және бағасы. 'Enrollments' кестесі студенттің курсқа жазылғанын тіркейді, соның ішінде басталу күні мен прогресі көрсетіледі. Нәтижелерді бақылау үшін 'Assignments' кестесі қолданылады, онда орындалған тапсырмалар, бағалар және оқытушылардың пікірлері туралы ақпарат сақталады. Мұндай құрылым курстардың танымалдылығын, студенттердің үлгерімін талдауға және платформа әкімшілері үшін есептер құруға мүмкіндік береді.",
+        "extra_content": null,
+        "question": "Courses кестесіне жаңа курс қосу үшін қандай SQL операторы қолданылады?",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "INSERT INTO Courses (...) VALUES (...);",
+            "UPDATE Courses SET ...;",
+            "ALTER TABLE Courses ADD ...;",
+            "CREATE DATABASE Courses;"
+        ],
+        "correct": 0,
+        "explanation": "Кестеге жаңа жазба қосу үшін INSERT INTO операторы қолданылады. Бұл жағдайда — INSERT INTO Courses (...) VALUES (...);"
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0029",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "context",
+        "difficulty": "A",
+        "context": "'EduCourses' компаниясы онлайн оқыту платформасын басқарады. Дерекқорда пайдаланушылар, курстар және сабақтарды өту туралы мәліметтер сақталады. 'Users' кестесінде студенттер туралы ақпарат бар: аты, email, тіркелу күні және жазылым мәртебесі. 'Courses' кестесі оқу материалдарын сипаттайды: курс атауы, санаты, ұзақтығы және бағасы. 'Enrollments' кестесі студенттің курсқа жазылғанын тіркейді, соның ішінде басталу күні мен прогресі көрсетіледі. Нәтижелерді бақылау үшін 'Assignments' кестесі қолданылады, онда орындалған тапсырмалар, бағалар және оқытушылардың пікірлері туралы ақпарат сақталады. Мұндай құрылым курстардың танымалдылығын, студенттердің үлгерімін талдауға және платформа әкімшілері үшін есептер құруға мүмкіндік береді.",
+        "extra_content": null,
+        "question": "Assignments кестесіндегі тапсырмалар бойынша студенттің орташа бағасын қалай дұрыс есептеуге болады?",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "SELECT AVG(grade) FROM Assignments WHERE user_id = ...;",
+            "SELECT SUM(grade) FROM Assignments;",
+            "SELECT grade FROM Assignments WHERE AVG(user_id);",
+            "UPDATE Assignments SET grade = AVG(...);"
+        ],
+        "correct": 0,
+        "explanation": "Орташа бағаны есептеу үшін нақты студентке арналған WHERE шартымен бірге AVG агрегаттық функциясы қолданылады. Дұрыс сұраныс: SELECT AVG(grade) FROM Assignments WHERE user_id = ...;"
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0030",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "context",
+        "difficulty": "A",
+        "context": "'EduCourses' компаниясы онлайн оқыту платформасын басқарады. Дерекқорда пайдаланушылар, курстар және сабақтарды өту туралы мәліметтер сақталады. 'Users' кестесінде студенттер туралы ақпарат бар: аты, email, тіркелу күні және жазылым мәртебесі. 'Courses' кестесі оқу материалдарын сипаттайды: курс атауы, санаты, ұзақтығы және бағасы. 'Enrollments' кестесі студенттің курсқа жазылғанын тіркейді, соның ішінде басталу күні мен прогресі көрсетіледі. Нәтижелерді бақылау үшін 'Assignments' кестесі қолданылады, онда орындалған тапсырмалар, бағалар және оқытушылардың пікірлері туралы ақпарат сақталады. Мұндай құрылым курстардың танымалдылығын, студенттердің үлгерімін талдауға және платформа әкімшілері үшін есептер құруға мүмкіндік береді.",
+        "extra_content": null,
+        "question": "Курс өту прогресін пайызбен сақтау үшін қай деректер типі ең қолайлы?",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "DECIMAL(5, 2)",
+            "VARCHAR(255)",
+            "DATE",
+            "BOOLEAN"
+        ],
+        "correct": 0,
+        "explanation": "Пайыздық мәндерді сақтау үшін DECIMAL(5,2) сияқты дәлдігі бекітілген сандық типті қолданған дұрыс, өйткені ол 99.99 сияқты мәндерді дұрыс сақтайды."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0031",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "matching",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL агрегаттық функциялары мен олардың математикалық мағыналары арасындағы сәйкестікті орнатыңыз.",
+        "left_column": [
+            "AVG()",
+            "SUM()"
+        ],
+        "right_column": [
+            "Ең кіші мәнді анықтау",
+            "Орташа мәнді есептеу",
+            "Элементтердің қосындысын табу",
+            "Жолдардың жалпы санын есептеу"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                2
+            ]
+        ],
+        "explanation": "AVG функциясы арифметикалық ортаны есептейді, ал SUM — бағандағы элементтердің жалпы қосындысын табады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0032",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "matching",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL біріктіру түрлерін олардың нәтижелерімен сәйкестендіріңіз.",
+        "left_column": [
+            "INNER JOIN",
+            "LEFT JOIN"
+        ],
+        "right_column": [
+            "Екі кестедегі сәйкес жазбаларды ғана қайтарады",
+            "Сол жақ кестедегі барлық жазбаларды және оң жақтағы сәйкес жазбаларды қайтарады",
+            "Екі кестедегі барлық жазбаларды, сәйкес келмейтіндерін қоса қайтарады",
+            "Оң жақ кестедегі барлық жазбаларды және сол жақтағы сәйкес жазбаларды қайтарады"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                1
+            ]
+        ],
+        "explanation": "INNER JOIN екі кестеде де сәйкес келетін жолдарды ғана таңдайды. LEFT JOIN сол жақ кестедегі барлық жолдарды қайтарады, тіпті оң жақта сәйкестік болмаса да."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0033",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "matching",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Excel бағдарламасындағы деректер типтері мен олардың сипаттамалары арасындағы сәйкестікті орнатыңыз.",
+        "left_column": [
+            "Сандық",
+            "Мәтіндік"
+        ],
+        "right_column": [
+            "Орын жетіспегенде #### көрсетеді",
+            "Әдепкі бойынша сол жақ шетке тураланады",
+            "Әрқашан тек латын әріптерінен тұрады",
+            "Тек тақырыптарда қолданылады"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                1
+            ]
+        ],
+        "explanation": "Excel бағдарламасында баған ені тар болғанда сандар тор таңбасымен көрсетіледі, ал мәтін әдепкі бойынша ұяшықтың сол жағына тураланады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0034",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "matching",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL командаларын құрылыммен және деректермен жұмыс істеу қызметтері бойынша сәйкестендіріңіз.",
+        "left_column": [
+            "ALTER",
+            "UPDATE"
+        ],
+        "right_column": [
+            "Құрылымды өзгерту",
+            "Бүкіл дерекқорды жою",
+            "Қолданыстағы деректерді өзгерту",
+            "Кестеге жаңа жазбалар енгізу"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                2
+            ]
+        ],
+        "explanation": "ALTER кесте құрылымын өзгертуге арналған командаларға жатады, ал UPDATE — деректер мазмұнын өзгертуге арналған."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0035",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "matching",
+        "difficulty": "C",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL деректер типтерін жадты пайдалану тиімділігі бойынша талдап сәйкестендіріңіз.",
+        "left_column": [
+            "CHAR(100)",
+            "VARCHAR(100)"
+        ],
+        "right_column": [
+            "Әрқашан 100 байт орын алады",
+            "Мәтін ұзындығы + 1-2 байт орын алады",
+            "Іздеу кезінде баяу жұмыс істейді",
+            "Тек сандар үшін қолданылады"
+        ],
+        "options": null,
+        "correct": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                1
+            ]
+        ],
+        "explanation": "CHAR тұрақты көлемдегі жадты резервтейді, ал VARCHAR нақты мәтін көлеміне бейімделеді."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0036",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "multiple",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "SQL тілінде әртүрлі көлемдегі мәтіндік ақпаратты сақтауға арналған деректер типтерін таңдаңыз.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "CHAR",
+            "VARCHAR",
+            "TINYINT",
+            "TEXT",
+            "DATE",
+            "FLOAT"
+        ],
+        "correct": [
+            0,
+            1,
+            3
+        ],
+        "explanation": "CHAR, VARCHAR және TEXT типтері әртүрлі ұзындықтағы мәтіндік және жолдық деректерді сақтау үшін арнайы қолданылады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0037",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "multiple",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Кестедегі деректерді өзгерту үшін қолданылатын SQL операторларын таңдаңыз.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "INSERT",
+            "SELECT",
+            "UPDATE",
+            "DELETE",
+            "CREATE",
+            "ALTER"
+        ],
+        "correct": [
+            0,
+            2,
+            3
+        ],
+        "explanation": "INSERT жаңа жазбалар қосады, UPDATE бар жазбаларды өзгертеді, DELETE жазбаларды жояды. SELECT және CREATE деректерді өзгертуге жатпайды."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0038",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "multiple",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Excel электрондық кестесіндегі мәтіндік жолдарды түрлендіру және талдау үшін қолданылатын функцияларды анықтаңыз.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "ПСТР",
+            "ОСТАТ",
+            "ПРОПИСН",
+            "СУММ",
+            "ДЛСТР",
+            "СРЗНАЧ"
+        ],
+        "correct": [
+            0,
+            2,
+            4
+        ],
+        "explanation": "ПСТР, ПРОПИСН және ДЛСТР функциялары мәтінді бөліп алу, әріп регистрін өзгерту және мәтін ұзындығын есептеу үшін қолданылады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0039",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "multiple",
+        "difficulty": "B",
+        "context": null,
+        "extra_content": null,
+        "question": "Күн және уақытпен жұмыс істеуге арналған Excel функцияларын таңдаңыз.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "TODAY",
+            "NOW",
+            "DATE",
+            "LEN",
+            "SUM",
+            "CONCAT"
+        ],
+        "correct": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "TODAY және NOW функциялары ағымдағы күнді және күн/уақытты қайтарады, ал DATE жеке компоненттерден күн құрастырады. LEN, SUM және CONCAT мәтіндік немесе арифметикалық операцияларға жатады."
+    },
+    {
+        "approved": "YES",
+        "id": "inf-0040",
+        "subject": "Информатика",
+        "lang": "kz",
+        "type": "multiple",
+        "difficulty": "A",
+        "context": null,
+        "extra_content": null,
+        "question": "Шартты есептеулерді орындауға мүмкіндік беретін Excel функцияларын таңдаңыз.",
+        "left_column": null,
+        "right_column": null,
+        "options": [
+            "IF",
+            "IFS",
+            "SUMIF",
+            "ROUND",
+            "VLOOKUP",
+            "CONCAT"
+        ],
+        "correct": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "IF шартты тексереді, IFS бірнеше шарттарды беруге мүмкіндік береді, ал SUMIF шарт бойынша мәндерді қосады. ROUND — дөңгелектеуге, VLOOKUP — іздеуге, CONCAT — мәтінмен жұмыс істеуге арналған."
+    }
+]
