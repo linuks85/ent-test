@@ -20,6 +20,7 @@
         "Информатика": {
             "folder": "informatika",
             "variants": [
+                "kz-armanpv-7",
                 "kz-database-excel",
                 "kz-almatykitap-11",
                 "kz-almatykitap-10",
