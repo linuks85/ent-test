@@ -3,6 +3,7 @@
         "Информатика": {
             "folder": "informatika",
             "variants": [
+                "ru-armanpv-9",
                 "ru-armanpv-8",
                 "ru-armanpv-7",
                 "ru-database-excel",
@@ -22,6 +23,7 @@
         "Информатика": {
             "folder": "informatika",
             "variants": [
+                "kz-armanpv-9",
                 "kz-armanpv-8",
                 "kz-armanpv-7",
                 "kz-database-excel",
